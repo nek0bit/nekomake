@@ -1,6 +1,6 @@
 #include "shader.hpp"
 
-Shader::Shader() : program{ 0 }
+Shader::Shader() : program{ 0 }, modelLoc{ 0 }, projectionLoc{ 0 }, viewLoc{ 0 }
 {}
 
 void Shader::load(const std::string vertShaderFilename, const std::string fragShaderFilename)
@@ -61,6 +61,11 @@ void Shader::load(const std::string vertShaderFilename, const std::string fragSh
 	std::for_each(grouping.begin(), grouping.end(), [&](unsigned int& id) {
 		glDeleteShader(id);
 		});
+
+	// Setup common variables
+	projectionLoc = getUniform("projection");
+	modelLoc = getUniform("model");
+	viewLoc = getUniform("view");
 }
 
 Shader::~Shader()

@@ -21,4 +21,9 @@ struct Shader {
 	void setUniformMatrix4fv(unsigned int location, const GLfloat* value);
 
 	unsigned int program;
+	
+	// Common
+	unsigned int projectionLoc;
+	unsigned int modelLoc;
+	unsigned int viewLoc;
 };
