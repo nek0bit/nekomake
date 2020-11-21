@@ -11,8 +11,10 @@
 #include <GLFW/glfw3.h>
 
 struct Shader {
-	Shader(const std::string vertShaderFilename, const std::string fragShaderFilename);
+	Shader();
 	~Shader();
+
+	void load(const std::string vertShaderFilename, const std::string fragShaderFilename);
 
 	void use();
 	unsigned int getUniform(const std::string uniform);

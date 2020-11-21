@@ -17,7 +17,6 @@ int main()
 {
 	constexpr int FPS = 120;
 	constexpr int frameDel = 1000 / FPS;
-	const std::string dir = "../../../"; // tmp
 
 	// Setup GLFW
 	glfwInit();
@@ -53,9 +52,10 @@ int main()
 
 	game.initGL();
 
-	while (game.running)
+	while (!glfwWindowShouldClose(window))
 	{
-
+		game.update();
+		game.render();
 	}
 
 	return 0;

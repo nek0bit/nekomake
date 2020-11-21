@@ -1,6 +1,9 @@
 #include "shader.hpp"
 
-Shader::Shader(const std::string vertShaderFilename, const std::string fragShaderFilename) : program{ 0 }
+Shader::Shader() : program{ 0 }
+{}
+
+void Shader::load(const std::string vertShaderFilename, const std::string fragShaderFilename)
 {
 	std::ifstream vertShader_f, fragShader_f;
 	vertShader_f.open(vertShaderFilename);

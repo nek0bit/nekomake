@@ -15,6 +15,6 @@ add_executable(nekomake
 	"src/game.hpp"
 	"src/game.cpp"
 	"src/shader.hpp"
-	"src/shader.cpp")
+	"src/shader.cpp" "src/textures.hpp" "src/textures.cpp")
 
 target_link_libraries(nekomake ${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw3.lib)
