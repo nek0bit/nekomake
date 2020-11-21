@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "shader.hpp"
+
 struct Game {
 	Game(GLFWwindow *window, int &viewWidth, int &viewHeight);
 	~Game();

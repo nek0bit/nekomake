@@ -62,5 +62,20 @@ Shader::Shader(const std::string vertShaderFilename, const std::string fragShade
 
 Shader::~Shader()
 {
+	glDeleteShader(program);
+}
 
+void Shader::use()
+{
+	glUseProgram(program);
+}
+
+unsigned int Shader::getUniform(const std::string uniform)
+{
+	return glGetUniformLocation(program, uniform.c_str());
+}
+
+void Shader::setUniformMatrix4fv(unsigned int location, const GLfloat* value)
+{
+	glUniformMatrix4fv(location, 1, GL_FALSE, value);
 }

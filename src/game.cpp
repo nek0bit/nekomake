@@ -1,7 +1,7 @@
 #include "game.hpp"
 
 Game::Game(GLFWwindow *window, int &viewWidth, int &viewHeight) : window{ window }, viewWidth{ viewWidth }, viewHeight{ viewHeight },
-running{ true }
+running{ false }
 {
 	std::cout << "Window at: " << window << std::endl;
 }

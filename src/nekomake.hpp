@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 // External
 #include <iostream>
 #include <thread>
