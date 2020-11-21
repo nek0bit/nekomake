@@ -11,6 +11,6 @@ include_directories(include)
 add_executable(nekomake
 	"src/glad.c"
 	"src/nekomake.cpp"
-	"src/nekomake.hpp")
+	"src/nekomake.hpp" "src/game.hpp" "src/game.cpp" "src/shader.hpp" "src/shader.cpp")
 
 target_link_libraries(nekomake ${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw3.lib)

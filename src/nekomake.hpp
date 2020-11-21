@@ -1,8 +1,27 @@
-﻿// nekomake.h : Include file for standard system include files,
-// or project specific include files.
+﻿#pragma once
 
-#pragma once
 
+// External
 #include <iostream>
+#include <thread>
+#include <algorithm>
+#include <vector>
+#include <sstream>
+#include <fstream>
+#include <cstring>
 
-// TODO: Reference additional headers your program requires here.
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+// Internal
+void error(const std::string message);
+void framebufferSizeCallback(GLFWwindow* window, int width, int height);
+
+#include "game.hpp"
