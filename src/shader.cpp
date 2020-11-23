@@ -15,7 +15,7 @@ void Shader::load(const std::string vertShaderFilename, const std::string fragSh
 
 	std::string vertShader_str = vertShader_stream.str(), fragShader_str = fragShader_stream.str();
 
-	const char *vertShader = vertShader_str.c_str(), *fragShader = fragShader_str.c_str();
+	const char* vertShader = vertShader_str.c_str(), * fragShader = fragShader_str.c_str();
 
 	program = glCreateProgram();
 	

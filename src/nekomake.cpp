@@ -6,6 +6,7 @@ int viewHeight = 600;
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
 	viewWidth = width;
 	viewHeight = height;
+	glViewport(0, 0, width, height);
 }
 
 void error(const std::string message)
@@ -24,7 +25,7 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow *window = glfwCreateWindow(viewWidth, viewHeight, "NekoMake", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(viewWidth, viewHeight, "NekoMake", NULL, NULL);
 	
 	if (window == NULL)
 	{
@@ -48,14 +49,17 @@ int main()
 	framebufferSizeCallback(window, viewWidth, viewHeight);
 	glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
+	Timer timer = 120;
 	Game game{window, viewWidth, viewHeight};
 
 	game.initGL();
 
 	while (!glfwWindowShouldClose(window))
 	{
-		game.update();
+		timer.setCurrentTime(glfwGetTime() * 1000);
+		game.update(timer);
 		game.render();
+		std::this_thread::sleep_for(std::chrono::milliseconds(timer.getSleepTime(glfwGetTime() * 1000)));
 	}
 
 	return 0;

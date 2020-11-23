@@ -5,6 +5,8 @@
 #include <thread>
 #include <algorithm>
 #include <vector>
+#include <chrono>
+#include <thread>
 #include <sstream>
 #include <fstream>
 #include <cstring>
@@ -23,3 +25,4 @@ void error(const std::string message);
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 #include "game.hpp"
+#include "timer.hpp"
