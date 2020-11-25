@@ -3,12 +3,17 @@
 Camera::Camera(int& viewWidth, int& viewHeight) : viewWidth{ viewWidth }, viewHeight{ viewHeight }, eye{ 0.0f, 0.0f, 0.0f },
 center{ 0.0f, 0.0f, -1.0f }, up{ 0.0f, 1.0f, 0.0f }, yaw{ 0.0f }, pitch{ 0.0f }, roll{ 0.0f }
 {
-	projection = glm::perspective(glm::radians(45.0f), (float)viewWidth / (float)viewHeight, 0.1f, 100.0f);
+	updatePerspective();
 }
 
 Camera::~Camera()
 {
 
+}
+
+void Camera::updatePerspective()
+{
+	projection = glm::perspective(glm::radians(45.0f), (float)viewWidth / (float)viewHeight, 0.1f, 100.0f);
 }
 
 void Camera::set(Shader &shader) {
@@ -19,6 +24,8 @@ void Camera::set(Shader &shader) {
 
 void Camera::update()
 {
+	projection = glm::perspective(glm::radians(45.0f), (float)viewWidth / (float)viewHeight, 0.1f, 100.0f);
+
 	// Update euler angles
 	center.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	center.y = sin(glm::radians(pitch));

@@ -3,10 +3,14 @@
 int viewWidth = 800;
 int viewHeight = 600;
 
+Game* gamePtr = nullptr;
+
 void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
 	viewWidth = width;
 	viewHeight = height;
 	glViewport(0, 0, width, height);
+	if (gamePtr != nullptr)
+		gamePtr->camera.updatePerspective();
 }
 
 void error(const std::string message)
@@ -17,7 +21,6 @@ void error(const std::string message)
 int main()
 {
 	constexpr int FPS = 120;
-	constexpr int frameDel = 1000 / FPS;
 
 	// Setup GLFW
 	glfwInit();
@@ -45,12 +48,16 @@ int main()
 		return -3;
 	}
 
+
+	Timer timer = FPS;
+	Game game{window, viewWidth, viewHeight};
+	
+	// Store a pointer to the game for the resize callback function
+	gamePtr = &game;
+
 	// Set view size
 	framebufferSizeCallback(window, viewWidth, viewHeight);
 	glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-
-	Timer timer = 120;
-	Game game{window, viewWidth, viewHeight};
 
 	game.initGL();
 

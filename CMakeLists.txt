@@ -15,6 +15,6 @@ add_executable(nekomake
 	"src/game.hpp"
 	"src/game.cpp"
 	"src/shader.hpp"
-	"src/shader.cpp" "src/textures.hpp" "src/textures.cpp" "src/mesh.hpp" "src/mesh.cpp" "src/camera.hpp" "src/camera.cpp" "src/timer.hpp" "src/timer.cpp"  "src/inputs.hpp" "src/inputs.cpp")
+	"src/shader.cpp" "src/textures.hpp" "src/textures.cpp" "src/mesh.hpp" "src/mesh.cpp" "src/camera.hpp" "src/camera.cpp" "src/timer.hpp" "src/timer.cpp"  "src/inputs.hpp" "src/inputs.cpp"  "src/game_object.hpp" "src/game_object.cpp")
 
 target_link_libraries(nekomake ${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw3.lib)

@@ -18,6 +18,7 @@ struct Camera {
 	void update();
 
 	// Generic functions
+	void updatePerspective();
 	void rotateYaw(float amount);
 	void rotatePitch(float amount);
 	void rotateRoll(float amount);
