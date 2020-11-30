@@ -24,14 +24,13 @@ class MeshNullptr : public std::exception
 
 struct GameObject {
 	GameObject(Mesh* mesh, double x = 0.0, double y = 0.0, double z = 0.0,
-		double rotX = 1.0, double rotY = 1.0, double rotZ = 1.0);
+		double rotX = 0.0, double rotY = 0.0, double rotZ = 0.0);
 	~GameObject();
 
 	void render(Shader& shader);
 
 	glm::vec3 pos;
 	glm::vec3 rot;
-	float rotAmount;
 
 	Mesh* mesh;
 };

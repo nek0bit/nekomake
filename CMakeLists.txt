@@ -1,20 +1,24 @@
-﻿# CMakeList.txt : Top-level CMake project file, do global configuration
-# and include sub-projects here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 
 project(nekomake)
 
-include_directories(include)
+if (MSVC)
+  include_directories(include/)
+elseif(UNIX)
+  include_directories(/usr/include include/)
+endif()
 
-# Add source to this project's executable.
-add_executable(nekomake
-	"src/glad.c"
-	"src/nekomake.cpp"
-	"src/nekomake.hpp"
-	"src/game.hpp"
-	"src/game.cpp"
-	"src/shader.hpp"
-	"src/shader.cpp" "src/textures.hpp" "src/textures.cpp" "src/mesh.hpp" "src/mesh.cpp" "src/camera.hpp" "src/camera.cpp" "src/timer.hpp" "src/timer.cpp"  "src/inputs.hpp" "src/inputs.cpp"  "src/game_object.hpp" "src/game_object.cpp")
+add_definitions(-DDATA="${DATA}")
 
-target_link_libraries(nekomake ${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw3.lib)
+set(OpenGL_GL_PREFERENCE "GLVND")
+find_package(OpenGL REQUIRED)
+
+file(GLOB SOURCES "src/*.cpp" "src/*.c")
+
+add_executable(nekomake ${SOURCES})
+
+if (MSVC)
+  target_link_libraries(nekomake ${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw3.lib)
+elseif(UNIX)
+  target_link_libraries(nekomake dl glfw)
+endif()

@@ -9,6 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "constants.hpp"
 #include "shader.hpp"
 #include "textures.hpp"
 #include "mesh.hpp"
@@ -16,17 +17,7 @@
 #include "timer.hpp"
 #include "inputs.hpp"
 #include "game_object.hpp"
-
-enum keys
-{
-	KEY_ESCAPE = 0,
-	KEY_W,
-	KEY_A,
-	KEY_S,
-	KEY_D,
-	KEY_SPACE,
-	KEY_LEFT_SHIFT
-};
+#include "editor.hpp"
 
 struct Game {
 	Game(GLFWwindow* window, int& viewWidth, int& viewHeight);
@@ -46,8 +37,10 @@ private:
 	unsigned int VBO;
 	Inputs inputs;
 
-	Mesh sample;
-	GameObject sampleObj;
+    // Game
+    Editor editor;
+
+    std::vector<Mesh> meshGroup;
 	
 	int& viewWidth;
 	int& viewHeight;

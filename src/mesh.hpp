@@ -16,8 +16,8 @@ struct Mesh {
 	Mesh(unsigned int* VBO);
 	~Mesh();
 
-	void init(std::vector<float>& vertices);
-	void render(Shader& shader, glm::vec3& transformVertex, float rotate, glm::vec3& rotateVertex);
+	void init(std::vector<float> vertices);
+	void render(Shader& shader, glm::vec3& transformVertex, glm::vec3& rotateVertex);
 
 	std::vector<float> vertices;
 	unsigned int* VBO;
