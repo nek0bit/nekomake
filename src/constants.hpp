@@ -17,3 +17,7 @@ enum keys
 	KEY_LEFT_SHIFT
 };
 
+namespace constants
+{
+    extern double block_size;
+}

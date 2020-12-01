@@ -10,7 +10,6 @@ Game::Game(GLFWwindow* window,
         GLFW_KEY_D, GLFW_KEY_R, GLFW_KEY_SPACE, GLFW_KEY_LEFT_SHIFT} },
                               editor{},
                               camera{ viewWidth, viewHeight }
-                              /*sampleObj{ &sample, 0.0, 0.0, 3.0, 45, 45, 45 }*/
 {
     glGenBuffers(1, &VBO);
 
@@ -19,7 +18,7 @@ Game::Game(GLFWwindow* window,
     const std::string root_data = root + "data/";
 
     std::vector<std::string> textures_str = {
-        root_data + "sample.jpg"
+        root_data + "cursor.png"
     };
 
     textures.load(textures_str);
@@ -100,9 +99,12 @@ void Game::render()
 	shader.use();
 	// Begin
 
-	glBindTexture(GL_TEXTURE_2D, textures.ids[0]);
+    textures.bind_texture(0);
     //editor.render();
-    GameObject temp{&meshGroup[MESH_TEST_BLOCK], 0, 0, 0, 0, 0, 0};
+    GameObject temp{&meshGroup[MESH_TEST_BLOCK],
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.25, 0.25, 0.25};
     temp.render(shader);
 
 	// End

@@ -22,7 +22,7 @@ void Mesh::init(std::vector<float> vertices)
 	glEnableVertexAttribArray(1);
 }
 
-void Mesh::render(Shader& shader, glm::vec3& transformVertex, glm::vec3& rotateVertex)
+void Mesh::render(Shader& shader, glm::vec3& transformVertex, glm::vec3& rotateVertex, glm::vec3& scaleVertex)
 {
 	glBindVertexArray(VAO);
 
@@ -33,6 +33,8 @@ void Mesh::render(Shader& shader, glm::vec3& transformVertex, glm::vec3& rotateV
     model = glm::rotate(model, rotateVertex.x, glm::vec3(1.0f, 0.0f, 0.0f));
     model = glm::rotate(model, rotateVertex.y, glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::rotate(model, rotateVertex.z, glm::vec3(0.0f, 0.0f, 1.0f));
+
+    model = glm::scale(model, scaleVertex);
 
     shader.setUniformMatrix4fv(shader.modelLoc, glm::value_ptr(model));
 	glDrawArrays(GL_TRIANGLES, 0, count);
