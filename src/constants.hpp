@@ -1,11 +1,11 @@
 #pragma once
 
-enum mesh
+enum mesh_t
 {
-    MESH_TEST_BLOCK
+    MESH_BLOCK
 };
 
-enum keys
+enum keys_t
 {
 	KEY_ESCAPE = 0,
 	KEY_W,

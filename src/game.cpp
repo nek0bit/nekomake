@@ -8,7 +8,7 @@ Game::Game(GLFWwindow* window,
                               inputs{ window, {
         GLFW_KEY_ESCAPE, GLFW_KEY_W, GLFW_KEY_A, GLFW_KEY_S,
         GLFW_KEY_D, GLFW_KEY_R, GLFW_KEY_SPACE, GLFW_KEY_LEFT_SHIFT} },
-                              editor{},
+                              play{},
                               camera{ viewWidth, viewHeight }
 {
     glGenBuffers(1, &VBO);
@@ -18,6 +18,7 @@ Game::Game(GLFWwindow* window,
     const std::string root_data = root + "data/";
 
     std::vector<std::string> textures_str = {
+        root_data + "sample.png",
         root_data + "cursor.png"
     };
 
@@ -25,7 +26,7 @@ Game::Game(GLFWwindow* window,
 
     meshGroup.push_back(Mesh{&VBO});
 
-    meshGroup[MESH_TEST_BLOCK].init(std::vector<float>{
+    meshGroup[MESH_BLOCK].init(std::vector<float>{
             -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
             0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
             0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -67,7 +68,7 @@ Game::Game(GLFWwindow* window,
             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
             -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
             -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-        });
+        }, {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1});
 
     shader.load(root+"shaders/vert.glsl", root+"shaders/frag.glsl");
 }
@@ -77,7 +78,11 @@ Game::~Game()
 
 void Game::initGL()
 {
+    glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    
 }
 
 void Game::update(Timer timer)
@@ -88,7 +93,7 @@ void Game::update(Timer timer)
 		glfwSetWindowShouldClose(window, true);
 	}
 
-    editor.update(timer, shader, camera, inputs, textures, VBO, viewWidth, viewHeight);
+    play.update(timer, shader, camera, inputs, textures, VBO, viewWidth, viewHeight);
 }
 
 void Game::render()
@@ -99,13 +104,13 @@ void Game::render()
 	shader.use();
 	// Begin
 
-    textures.bind_texture(0);
-    //editor.render();
-    GameObject temp{&meshGroup[MESH_TEST_BLOCK],
+    textures.bindTexture(0);
+    //play.render();
+    GameObject temp{&meshGroup[MESH_BLOCK],
         0.0, 0.0, 0.0,
         0.0, 0.0, 0.0,
         0.25, 0.25, 0.25};
-    temp.render(shader);
+    temp.render(shader, textures);
 
 	// End
 	glfwSwapBuffers(window);

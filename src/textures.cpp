@@ -12,11 +12,11 @@ Textures::~Textures()
 
 void Textures::load(std::vector<std::string>& textures_str)
 {
-    load_textures(textures_str);
+    loadTextures(textures_str);
 	
 }
 
-void Textures::load_textures(std::vector<std::string>& textures_str)
+void Textures::loadTextures(std::vector<std::string>& textures_str)
 {
     for (auto& str : textures_str) {
 		unsigned int texture;
@@ -44,7 +44,7 @@ void Textures::load_textures(std::vector<std::string>& textures_str)
 	}
 }
 
-void Textures::bind_texture(unsigned int id)
+void Textures::bindTexture(unsigned int id)
 {
     glBindTexture(GL_TEXTURE_2D, texture_ids[id]);
 }

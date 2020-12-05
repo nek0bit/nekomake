@@ -13,6 +13,7 @@
 
 #include "shader.hpp"
 #include "mesh.hpp"
+#include "textures.hpp"
 
 class MeshNullptr : public std::exception
 {
@@ -28,7 +29,7 @@ struct GameObject {
                double scaleX = 1.0, double scaleY = 1.0, double scaleZ = 1.0);
 	~GameObject();
 
-	void render(Shader& shader);
+	void render(Shader& shader, Textures& textures);
 
 	glm::vec3 pos;
 	glm::vec3 rot;

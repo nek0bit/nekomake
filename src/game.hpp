@@ -18,7 +18,7 @@
 #include "timer.hpp"
 #include "inputs.hpp"
 #include "game_object.hpp"
-#include "editor.hpp"
+#include "play.hpp"
 
 struct Game {
 	Game(GLFWwindow* window, int& viewWidth, int& viewHeight);
@@ -39,7 +39,7 @@ private:
 	Inputs inputs;
 
     // Game
-    Editor editor;
+    Play play;
 
     std::vector<Mesh> meshGroup;
 	

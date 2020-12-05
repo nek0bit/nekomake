@@ -16,9 +16,9 @@ struct Textures {
 
 	void load(std::vector<std::string>& textures_str);
 
-    void bind_texture(unsigned int id);
+    void bindTexture(unsigned int id);
 
 	std::vector<unsigned int> texture_ids;
 private:
-    void load_textures(std::vector<std::string>& textures_str);
+    void loadTextures(std::vector<std::string>& textures_str);
 };

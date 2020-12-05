@@ -1,6 +1,9 @@
 #include "mesh.hpp"
 
-Mesh::Mesh(unsigned int* VBO) : vertices{ }, VBO{ VBO }, VAO{ 0 }, count{ 0 }
+constexpr int count = 5;
+constexpr int indices = 3;
+
+Mesh::Mesh(unsigned int* VBO) : VBO{ VBO }, VAO{ 0 }, amount{ 0 }
 {
 }
 
@@ -8,9 +11,9 @@ Mesh::~Mesh()
 {}
 
 
-void Mesh::init(std::vector<float> vertices)
+void Mesh::init(std::vector<float> vertices, std::vector<int> texture_ids)
 {
-	count = vertices.size() / 5;
+    amount = vertices.size() / count;
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, *VBO);
@@ -20,9 +23,15 @@ void Mesh::init(std::vector<float> vertices)
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+    this->texture_ids = texture_ids;
 }
 
-void Mesh::render(Shader& shader, glm::vec3& transformVertex, glm::vec3& rotateVertex, glm::vec3& scaleVertex)
+void Mesh::render(Shader& shader,
+                  Textures& textures,
+                  glm::vec3& transformVertex,
+                  glm::vec3& rotateVertex,
+                  glm::vec3& scaleVertex)
 {
 	glBindVertexArray(VAO);
 
@@ -37,6 +46,13 @@ void Mesh::render(Shader& shader, glm::vec3& transformVertex, glm::vec3& rotateV
     model = glm::scale(model, scaleVertex);
 
     shader.setUniformMatrix4fv(shader.modelLoc, glm::value_ptr(model));
-	glDrawArrays(GL_TRIANGLES, 0, count);
+
+    for (int i = 0; i < amount/indices; i++)
+    {
+        textures.bindTexture(texture_ids[i]);
+        std::cout << i * indices << std::endl;
+        glDrawArrays(GL_TRIANGLES, i*indices, indices);
+    }
+    
 	glBindVertexArray(0);
 }

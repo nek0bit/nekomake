@@ -14,7 +14,7 @@ GameObject::GameObject(Mesh* mesh, double x, double y, double z,
 GameObject::~GameObject()
 {}
 
-void GameObject::render(Shader& shader)
+void GameObject::render(Shader& shader, Textures& textures)
 {
-	mesh->render(shader, pos, rot, scale);
+	mesh->render(shader, textures, pos, rot, scale);
 }

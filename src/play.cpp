@@ -1,16 +1,16 @@
-#include "editor.hpp"
+#include "play.hpp"
 
-Editor::Editor()
+Play::Play()
 {
 
 }
 
-Editor::~Editor()
+Play::~Play()
 {
 
 }
 
-void Editor::update(Timer& timer,
+void Play::update(Timer& timer,
                     Shader& shader,
                     Camera& camera,
                     Inputs& inputs,
@@ -25,6 +25,7 @@ void Editor::update(Timer& timer,
         camera.eye.y = 0;
         camera.eye.z = 0;
     }
+    
     // Update mouse
     inputs.update();
     inputs.updateMouse();
@@ -37,23 +38,27 @@ void Editor::update(Timer& timer,
     inputs.updateMouse();
 
     constexpr double amount = 0.001;
-    constexpr float speed = 0.001;
-
-    std::cout << camera.eye.x << " " << camera.eye.y << " " << camera.eye.z << std::endl;
+    constexpr float rotateSpeed = 0.3;
+    constexpr float moveSpeed = 0.001;
 
     double move_x = (inputs.mouse_x_last - inputs.mouse_x) * amount * timer.deltaTime,
         move_y = (inputs.mouse_y_last - inputs.mouse_y) * amount * timer.deltaTime * -1;
 
-    //camera.eye += move_x * speed * timer.deltaTime;
-    //camera.eye += move_y * speed * timer.deltaTime;
+    // Rotate camera
+    camera.yaw += move_x * rotateSpeed * timer.deltaTime;
+    camera.pitch += move_y * rotateSpeed * timer.deltaTime;
 
-    camera.eye.x += move_y;
-    camera.eye.y = 3;
-    camera.eye.z += move_x;
+    // Handle movement
+    if (inputs.keyState[KEY_W])
+	{
+        camera.eye += moveSpeed * camera.center * timer.deltaTime;
+	}
 
+    if (inputs.keyState[KEY_S])
+    {
+        camera.eye -= moveSpeed * camera.center * timer.deltaTime;
+    }
     
-    camera.pitch = -30;
-
 	// Update camera
 	camera.update();
 	camera.set(shader);
@@ -61,7 +66,7 @@ void Editor::update(Timer& timer,
     inputs.hideCursor();
 }
 
-void Editor::render()
+void Play::render()
 {
-    std::cout << "Render called" << std::endl;
+    
 }

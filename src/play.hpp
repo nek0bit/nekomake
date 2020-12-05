@@ -18,9 +18,9 @@
 #include "inputs.hpp"
 #include "game_object.hpp"
 
-struct Editor {
-    Editor();
-    ~Editor();
+struct Play {
+    Play();
+    ~Play();
 
     void update(Timer& timer,
                 Shader& shader,

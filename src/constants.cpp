@@ -2,5 +2,5 @@
 
 namespace constants
 {
-    double block_size = 20;
+    double block_size = 1;
 }
