@@ -35,5 +35,7 @@ struct GameObject {
 	glm::vec3 rot;
     glm::vec3 scale;
 
+    std::vector<bool> toggles;
+
 	Mesh* mesh;
 };

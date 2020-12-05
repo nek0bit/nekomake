@@ -38,15 +38,24 @@ void Play::update(Timer& timer,
     inputs.updateMouse();
 
     constexpr double amount = 0.001;
-    constexpr float rotateSpeed = 0.3;
-    constexpr float moveSpeed = 0.001;
+    constexpr float rotateSpeed = 100;
+    constexpr float moveSpeed = 0.01;
 
-    double move_x = (inputs.mouse_x_last - inputs.mouse_x) * amount * timer.deltaTime,
-        move_y = (inputs.mouse_y_last - inputs.mouse_y) * amount * timer.deltaTime * -1;
+    double move_x = (inputs.mouse_x_last - inputs.mouse_x) * amount,
+        move_y = (inputs.mouse_y_last - inputs.mouse_y) * amount * -1;
 
     // Rotate camera
-    camera.yaw += move_x * rotateSpeed * timer.deltaTime;
-    camera.pitch += move_y * rotateSpeed * timer.deltaTime;
+    camera.yaw += move_x * rotateSpeed;
+    camera.pitch += move_y * rotateSpeed;
+
+    // Clamp values and reverse
+    camera.pitch = generic::clamp(camera.pitch, -89.9, 89.9);
+
+    if (camera.yaw > 360)
+        camera.yaw = camera.yaw - 360;
+    else if (camera.yaw < 0)
+        camera.yaw = camera.yaw + 360;
+
 
     // Handle movement
     if (inputs.keyState[KEY_W])

@@ -107,10 +107,15 @@ void Game::render()
     textures.bindTexture(0);
     //play.render();
     GameObject temp{&meshGroup[MESH_BLOCK],
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-        0.25, 0.25, 0.25};
+        0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f,
+        1.0f, 1.0f, 1.0f};
+    GameObject tempa{&meshGroup[MESH_BLOCK],
+        1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f,
+        1.0f, 1.0f, 1.0f};
     temp.render(shader, textures);
+    tempa.render(shader, textures);
 
 	// End
 	glfwSwapBuffers(window);

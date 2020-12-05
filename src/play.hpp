@@ -9,6 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "generic.hpp"
 #include "constants.hpp"
 #include "shader.hpp"
 #include "textures.hpp"

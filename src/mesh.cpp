@@ -31,7 +31,8 @@ void Mesh::render(Shader& shader,
                   Textures& textures,
                   glm::vec3& transformVertex,
                   glm::vec3& rotateVertex,
-                  glm::vec3& scaleVertex)
+                  glm::vec3& scaleVertex,
+                  std::vector<bool> toggle_triangles)
 {
 	glBindVertexArray(VAO);
 
@@ -50,7 +51,12 @@ void Mesh::render(Shader& shader,
     for (int i = 0; i < amount/indices; i++)
     {
         textures.bindTexture(texture_ids[i]);
-        std::cout << i * indices << std::endl;
+
+        // Originally I was going to use lower_bound but I figured it would be faster
+        // to check by index instead of indenting each time
+        if (toggle_triangles.size() > 0 && toggle_triangles.size() <= amount && !toggle_triangles[i])
+            continue;
+        
         glDrawArrays(GL_TRIANGLES, i*indices, indices);
     }
     

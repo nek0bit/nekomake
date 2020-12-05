@@ -39,6 +39,8 @@ int main()
 	else
 	{
 		glfwMakeContextCurrent(window);
+        // Disable vsync (just for now)
+        glfwSwapInterval(0);
 	}
 
 	// Initialize GLAD
