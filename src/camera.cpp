@@ -13,7 +13,7 @@ Camera::~Camera()
 
 void Camera::updatePerspective()
 {
-	projection = glm::perspective(glm::radians(45.0f), (float)viewWidth / (float)viewHeight, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(50.0f), (float)viewWidth / (float)viewHeight, 0.1f, 100.0f);
 }
 
 void Camera::set(Shader &shader) {

@@ -94,17 +94,7 @@ void Play::update(Inputs& inputs)
 
 void Play::render()
 {
-    GameObject temp{&(*meshGroup)[MESH_BLOCK],
-        0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 1.0f};
-    GameObject tempa{&(*meshGroup)[MESH_BLOCK],
-        1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 1.0f};
-    temp.toggles = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
-    temp.render(*shader, *textures);
-    tempa.render(*shader, *textures);
-
-    
+    Block block{0, 0, 0};
+    block.updateFaces({0, 1, 1, 1, 1, 1});
+    block.render(*shader, *textures);
 }

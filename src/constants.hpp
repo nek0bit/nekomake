@@ -1,5 +1,7 @@
 #pragma once
 
+#include "mesh.hpp"
+
 enum mesh_t
 {
     MESH_BLOCK

@@ -18,6 +18,7 @@
 #include "timer.hpp"
 #include "inputs.hpp"
 #include "game_object.hpp"
+#include "block.hpp"
 
 struct Play {
     Play();
