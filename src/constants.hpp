@@ -19,5 +19,6 @@ enum keys_t
 
 namespace constants
 {
-    extern double block_size;
+    extern Mesh* blockMesh;
+    extern double blockSize;
 }

@@ -2,5 +2,6 @@
 
 namespace constants
 {
-    double block_size = 1;
+    Mesh* blockMesh = nullptr; // Because it is used so often
+    double blockSize = 1;
 }

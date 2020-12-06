@@ -52,7 +52,7 @@ int main()
 
 
 	Timer timer = FPS;
-	Game game{window, viewWidth, viewHeight};
+	Game game{window, timer, viewWidth, viewHeight};
 	
 	// Store a pointer to the game for the resize callback function
 	gamePtr = &game;
@@ -66,7 +66,7 @@ int main()
 	while (!glfwWindowShouldClose(window))
 	{
 		timer.setCurrentTime(glfwGetTime() * 1000);
-		game.update(timer);
+		game.update();
 		game.render();
 		std::this_thread::sleep_for(std::chrono::milliseconds(timer.getSleepTime(glfwGetTime() * 1000)));
 	}

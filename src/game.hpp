@@ -21,12 +21,12 @@
 #include "play.hpp"
 
 struct Game {
-	Game(GLFWwindow* window, int& viewWidth, int& viewHeight);
+	Game(GLFWwindow* window, Timer& timer, int& viewWidth, int& viewHeight);
 	~Game();
 
 	void initGL();
 
-	void update(Timer timer);
+	void update();
 	void render();
 
 	bool running;
@@ -41,7 +41,7 @@ private:
     // Game
     Play play;
 
-    std::vector<Mesh> meshGroup;
+    meshGroup_t meshGroup;
 	
 	int& viewWidth;
 	int& viewHeight;

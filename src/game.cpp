@@ -2,6 +2,7 @@
 
 
 Game::Game(GLFWwindow* window,
+           Timer& timer,
            int& viewWidth,
            int& viewHeight) : window{ window }, viewWidth{ viewWidth }, viewHeight{ viewHeight },
                               running{ true }, shader{}, textures{}, VBO{ 0 },
@@ -17,9 +18,9 @@ Game::Game(GLFWwindow* window,
     const std::string root = DATA; // tmp
     const std::string root_data = root + "data/";
 
+
     std::vector<std::string> textures_str = {
-        root_data + "sample.png",
-        root_data + "cursor.png"
+        root_data + "dirt.png"
     };
 
     textures.load(textures_str);
@@ -68,9 +69,13 @@ Game::Game(GLFWwindow* window,
             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
             -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
             -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-        }, {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1});
+        }, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+
+    constants::blockMesh = &meshGroup[MESH_BLOCK];
 
     shader.load(root+"shaders/vert.glsl", root+"shaders/frag.glsl");
+    
+    play.setAll(timer, shader, camera, textures, VBO, meshGroup);
 }
 
 Game::~Game()
@@ -85,15 +90,15 @@ void Game::initGL()
     
 }
 
-void Game::update(Timer timer)
+void Game::update()
 {
     // Close if escape pressed
-	if (inputs.keyState[KEY_ESCAPE])
+	if(inputs.keyState[KEY_ESCAPE])
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
 
-    play.update(timer, shader, camera, inputs, textures, VBO, viewWidth, viewHeight);
+    play.update(inputs);
 }
 
 void Game::render()
@@ -104,18 +109,7 @@ void Game::render()
 	shader.use();
 	// Begin
 
-    textures.bindTexture(0);
-    //play.render();
-    GameObject temp{&meshGroup[MESH_BLOCK],
-        0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 1.0f};
-    GameObject tempa{&meshGroup[MESH_BLOCK],
-        1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 1.0f};
-    temp.render(shader, textures);
-    tempa.render(shader, textures);
+    play.render();
 
 	// End
 	glfwSwapBuffers(window);

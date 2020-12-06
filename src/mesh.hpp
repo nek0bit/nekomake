@@ -13,6 +13,7 @@
 #include "shader.hpp"
 #include "textures.hpp"
 
+
 struct Mesh {
 	Mesh(unsigned int* VBO);
 	~Mesh();
@@ -31,3 +32,5 @@ private:
 
 	unsigned int VAO;
 };
+
+typedef std::vector<Mesh> meshGroup_t;

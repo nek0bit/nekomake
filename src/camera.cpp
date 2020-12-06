@@ -24,7 +24,7 @@ void Camera::set(Shader &shader) {
 
 void Camera::update()
 {
-	projection = glm::perspective(glm::radians(45.0f), (float)viewWidth / (float)viewHeight, 0.1f, 100.0f);
+    updatePerspective();
 
 	// Update euler angles
 	center.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));

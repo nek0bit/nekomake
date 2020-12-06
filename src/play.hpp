@@ -23,13 +23,33 @@ struct Play {
     Play();
     ~Play();
 
-    void update(Timer& timer,
+    void update(Inputs& inputs);
+    void render();
+
+    void setAll(Timer& timer,
                 Shader& shader,
                 Camera& camera,
-                Inputs& inputs,
                 Textures& textures,
-                unsigned int VBO,
-                int& viewWidth,
-                int& viewHeight);
-    void render();
+                unsigned int& VBO,
+                meshGroup_t& meshGroup);
+    
+    void setTimer(Timer& timer);
+    void setShader(Shader& shader);
+    void setCamera(Camera& camera);
+    void setTextures(Textures& textures);
+    void setVBO(unsigned int& VBO);
+    void setMeshGroup(meshGroup_t& meshGroup);
+
+private:
+    // Store as pointer references since they are commonly used and cleans up code
+    Timer* timer;
+    Shader* shader;
+    Camera* camera;
+    Textures* textures;
+    unsigned int* VBO;
+    meshGroup_t* meshGroup;
+
+    bool nullptrCheck(); // Just checks if no nullptrs for the above pointer references
+
+    void handleCamera(Inputs& inputs);
 };
