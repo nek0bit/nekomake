@@ -19,36 +19,29 @@
 #include "inputs.hpp"
 #include "game_object.hpp"
 #include "block.hpp"
+#include "chunk.hpp"
 
 struct Play {
-    Play();
+    Play(Timer& timer,
+         Shader& shader,
+         Camera& camera,
+         Textures& textures,
+         unsigned int& VBO,
+         meshGroup_t& meshGroup);
     ~Play();
 
     void update(Inputs& inputs);
     void render();
-
-    void setAll(Timer& timer,
-                Shader& shader,
-                Camera& camera,
-                Textures& textures,
-                unsigned int& VBO,
-                meshGroup_t& meshGroup);
-    
-    void setTimer(Timer& timer);
-    void setShader(Shader& shader);
-    void setCamera(Camera& camera);
-    void setTextures(Textures& textures);
-    void setVBO(unsigned int& VBO);
-    void setMeshGroup(meshGroup_t& meshGroup);
-
 private:
     // Store as pointer references since they are commonly used and cleans up code
-    Timer* timer;
-    Shader* shader;
-    Camera* camera;
-    Textures* textures;
-    unsigned int* VBO;
-    meshGroup_t* meshGroup;
+    Timer& timer;
+    Shader& shader;
+    Camera& camera;
+    Textures& textures;
+    unsigned int& VBO;
+    meshGroup_t& meshGroup;
+
+    Chunk test;
 
     bool nullptrCheck(); // Just checks if no nullptrs for the above pointer references
 

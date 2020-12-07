@@ -9,7 +9,7 @@ Game::Game(GLFWwindow* window,
                               inputs{ window, {
         GLFW_KEY_ESCAPE, GLFW_KEY_W, GLFW_KEY_A, GLFW_KEY_S,
         GLFW_KEY_D, GLFW_KEY_R, GLFW_KEY_SPACE, GLFW_KEY_LEFT_SHIFT} },
-                              play{},
+                              play{nullptr},
                               camera{ viewWidth, viewHeight }
 {
     glGenBuffers(1, &VBO);
@@ -71,11 +71,11 @@ Game::Game(GLFWwindow* window,
             -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
         }, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 
-    constants::blockMesh = &meshGroup[MESH_BLOCK];
+    constants::block::blockMesh = &meshGroup[MESH_BLOCK];
 
     shader.load(root+"shaders/vert.glsl", root+"shaders/frag.glsl");
-    
-    play.setAll(timer, shader, camera, textures, VBO, meshGroup);
+
+    play = std::unique_ptr<Play>{new Play(timer, shader, camera, textures, VBO, meshGroup)};
 }
 
 Game::~Game()
@@ -98,7 +98,7 @@ void Game::update()
 		glfwSetWindowShouldClose(window, true);
 	}
 
-    play.update(inputs);
+    play->update(inputs);
 }
 
 void Game::render()
@@ -109,7 +109,7 @@ void Game::render()
 	shader.use();
 	// Begin
 
-    play.render();
+    play->render();
 
 	// End
 	glfwSwapBuffers(window);

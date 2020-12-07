@@ -7,23 +7,22 @@
 #include "constants.hpp"
 #include "game_object.hpp"
 
-typedef std::array<bool, 6> cubeFaces_t;
+typedef std::array<bool, 6> faces_t;
 
-struct Block: public GameObject
+struct Block
 {
     Block(int x = 0, int y = 0, int z = 0);
+    virtual ~Block();
 
-    //void render(Shader& shader, Textures& textures) override;
-    
-    void setX(int x);
-    void setY(int y);
-    void setZ(int z);
+    bool operator<(const Block& b) const;
+    bool operator>(const Block& b) const;
 
-    void updateFaces(cubeFaces_t faces);
+    bool compare(int com_x, int com_y, int com_z) const;
+
+    faces_t faces;
     
     int x;
     int y;
     int z;
-private:
-    cubeFaces_t blockFaces;
 };
+

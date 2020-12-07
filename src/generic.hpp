@@ -5,5 +5,9 @@
 // Generic functions
 namespace generic
 {
-    double clamp(double value, double min, double max);
+    template<typename T>
+    T clamp(T value, T min, T max)
+    {
+        return value > max ? max : value < min ? min : value;
+    }
 }

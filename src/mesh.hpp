@@ -19,15 +19,18 @@ struct Mesh {
 	~Mesh();
 
 	void init(std::vector<float> vertices, std::vector<int> texture_ids);
+    
 	void render(Shader& shader,
                 Textures& textures,
                 glm::vec3& transformVertex,
                 glm::vec3& rotateVertex,
-                glm::vec3& scaleVertex,
-                std::vector<bool> toggle_triangles = {});
+                glm::vec3& scaleVertex);
+
+    void bindBuffer(std::vector<float>& vertices);
+    
+    std::vector<int> texture_ids;
 private:
     int amount;
-    std::vector<int> texture_ids;
 	unsigned int* VBO;
 
 	unsigned int VAO;

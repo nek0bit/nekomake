@@ -13,12 +13,13 @@ Mesh::~Mesh()
 
 void Mesh::init(std::vector<float> vertices, std::vector<int> texture_ids)
 {
-    amount = vertices.size() / count;
+    // Generate VAO
 	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, *VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(&vertices[0]), &vertices[0], GL_DYNAMIC_DRAW);
+
+    bindBuffer(vertices);
 	// Attributes
+
+    // TODO move this to opengl init method
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -27,13 +28,21 @@ void Mesh::init(std::vector<float> vertices, std::vector<int> texture_ids)
     this->texture_ids = texture_ids;
 }
 
+void Mesh::bindBuffer(std::vector<float>& vertices)
+{
+    amount = vertices.size() / count;
+    glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, *VBO);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(&vertices[0]), &vertices[0], GL_DYNAMIC_DRAW);
+}
+
 void Mesh::render(Shader& shader,
                   Textures& textures,
                   glm::vec3& transformVertex,
                   glm::vec3& rotateVertex,
-                  glm::vec3& scaleVertex,
-                  std::vector<bool> toggle_triangles)
+                  glm::vec3& scaleVertex)
 {
+    
 	glBindVertexArray(VAO);
 
 	glm::mat4 model{ 1.0f };
@@ -51,12 +60,6 @@ void Mesh::render(Shader& shader,
     for (int i = 0; i < amount/indices; i++)
     {
         textures.bindTexture(texture_ids[i]);
-
-        // Originally I was going to use lower_bound but I figured it would be faster
-        // to check by index instead of indenting each time
-        if (toggle_triangles.size() > 0 && toggle_triangles.size() <= amount && !toggle_triangles[i])
-            continue;
-        
         glDrawArrays(GL_TRIANGLES, i*indices, indices);
     }
     

@@ -1,13 +1,17 @@
 #pragma once
 
+#include <array>
+
 #include "mesh.hpp"
 
-enum mesh_t
+typedef std::array<int, 3> chunkVolume_t;
+
+enum mesh_enum
 {
     MESH_BLOCK
 };
 
-enum keys_t
+enum keys_enum
 {
 	KEY_ESCAPE = 0,
 	KEY_W,
@@ -20,7 +24,17 @@ enum keys_t
 };
 
 namespace constants
-{
-    extern Mesh* blockMesh;
-    extern double blockSize;
+{    
+    namespace block
+    {
+        extern Mesh* blockMesh;
+        extern double blockSize;
+    }
+    
+    namespace chunk
+    {
+        /* extern constexpr isn't valid, so I defined them here */
+        constexpr chunkVolume_t volume = {8, 300, 8};
+        constexpr int splitCount = 30;
+    }
 }

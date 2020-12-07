@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <array>
+#include <memory>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -39,7 +40,7 @@ private:
 	Inputs inputs;
 
     // Game
-    Play play;
+    std::unique_ptr<Play> play;
 
     meshGroup_t meshGroup;
 	
