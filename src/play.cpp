@@ -4,9 +4,8 @@ Play::Play(Timer& timer,
          Shader& shader,
          Camera& camera,
          Textures& textures,
-         unsigned int& VBO,
          meshGroup_t& meshGroup) : timer{timer}, shader{shader}, camera{camera},
-                                   textures{textures}, VBO{VBO}, meshGroup{meshGroup}, test{&VBO}
+                                   textures{textures}, meshGroup{meshGroup}, test{}
 {
     
 }

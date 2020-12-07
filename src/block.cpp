@@ -1,10 +1,26 @@
 #include "block.hpp"
 
-Block::Block(int x, int y, int z) : x{x}, y{y}, z{z}
+Block::Block(int x, int y, int z) : faces{1, 1, 1, 1, 1, 1}, x{x}, y{y}, z{z}
 {}
 
 Block::~Block()
 {}
+
+void Block::generateMesh(std::vector<float>& vertices, std::vector<int>& textures)
+{
+    for (size_t i = 0; i < faces.size(); ++i)
+    {
+        switch(i)
+        {
+        case 0: // Side 1
+            if (faces[i])
+                vertices.insert(vertices.end(), {
+                        
+                    });
+            break;
+        }
+    }
+}
 
 bool Block::operator<(const Block& b) const
 {

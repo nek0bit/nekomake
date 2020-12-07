@@ -14,6 +14,8 @@ struct Block
     Block(int x = 0, int y = 0, int z = 0);
     virtual ~Block();
 
+    void generateMesh(std::vector<float>& vertices, std::vector<int>& textures);
+    
     bool operator<(const Block& b) const;
     bool operator>(const Block& b) const;
 

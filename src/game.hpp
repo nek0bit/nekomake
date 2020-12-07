@@ -36,7 +36,6 @@ private:
 	GLFWwindow* window;
 	Shader shader;
 	Textures textures;
-	unsigned int VBO;
 	Inputs inputs;
 
     // Game

@@ -26,7 +26,7 @@ typedef std::array<
 
 struct Chunk
 {
-    Chunk(unsigned int* VBO);
+    Chunk();
     ~Chunk();
 
     void update();

@@ -26,7 +26,6 @@ struct Play {
          Shader& shader,
          Camera& camera,
          Textures& textures,
-         unsigned int& VBO,
          meshGroup_t& meshGroup);
     ~Play();
 
@@ -38,7 +37,7 @@ private:
     Shader& shader;
     Camera& camera;
     Textures& textures;
-    unsigned int& VBO;
+    
     meshGroup_t& meshGroup;
 
     Chunk test;

@@ -1,6 +1,6 @@
 #include "chunk.hpp"
 
-Chunk::Chunk(unsigned int* VBO) : ready{false}, chunk{}, chunkMesh{VBO}, vertices{}, textures{}, pos{0.0, 0.0, 0.0}, rot{0.0, 0.0, 0.0}, scale{1.0, 1.0, 1.0}, splitsGenerated{0}
+Chunk::Chunk() : ready{false}, chunk{}, chunkMesh{}, vertices{}, textures{}, pos{0.0, 0.0, 0.0}, rot{0.0, 0.0, 0.0}, scale{1.0, 1.0, 1.0}, splitsGenerated{0}
 {
     // Setup chunk mesh
     
@@ -34,7 +34,6 @@ bool Chunk::isBlockAt(int x, int y, int z) const
 
 void Chunk::updateBlockFaces()
 {
-    std::cout << isBlockAt(0, 0, 0) << std::endl;
     for (auto& split: chunk)
     {
         for (auto& array_block_y: split)
@@ -65,7 +64,7 @@ void Chunk::generateChunkMesh()
     {
         for (auto& block: split)
         {
-            
+            //block->generateMesh(vertices, textures);
         }
     }
 }

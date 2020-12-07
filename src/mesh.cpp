@@ -1,9 +1,9 @@
 #include "mesh.hpp"
 
 constexpr int count = 5;
-constexpr int indices = 3;
+constexpr int t_indices = 3;
 
-Mesh::Mesh(unsigned int* VBO) : VBO{ VBO }, VAO{ 0 }, amount{ 0 }
+Mesh::Mesh() : VBO{0}, EBO{0}, VAO{ 0 }, amount{ 0 }
 {
 }
 
@@ -11,12 +11,17 @@ Mesh::~Mesh()
 {}
 
 
-void Mesh::init(std::vector<float> vertices, std::vector<int> texture_ids)
+void Mesh::init(std::vector<float> vertices,
+                std::vector<int> texture_ids,
+                std::vector<unsigned int> indices)
 {
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
     // Generate VAO
 	glGenVertexArrays(1, &VAO);
 
-    bindBuffer(vertices);
+    bindBuffer(vertices, indices);
 	// Attributes
 
     // TODO move this to opengl init method
@@ -28,12 +33,16 @@ void Mesh::init(std::vector<float> vertices, std::vector<int> texture_ids)
     this->texture_ids = texture_ids;
 }
 
-void Mesh::bindBuffer(std::vector<float>& vertices)
+void Mesh::bindBuffer(std::vector<float>& vertices, std::vector<unsigned int> indices)
 {
-    amount = vertices.size() / count;
+    amount = indices.size();
+    
     glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, *VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(&vertices[0]), &vertices[0], GL_DYNAMIC_DRAW);
+    
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(&vertices[0]), &vertices[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(&indices[0]), &indices[0], GL_STATIC_DRAW);
 }
 
 void Mesh::render(Shader& shader,
@@ -57,10 +66,10 @@ void Mesh::render(Shader& shader,
 
     shader.setUniformMatrix4fv(shader.modelLoc, glm::value_ptr(model));
 
-    for (int i = 0; i < amount/indices; i++)
+    for (int i = 0; i < (amount/3); i++)
     {
-        textures.bindTexture(texture_ids[i]);
-        glDrawArrays(GL_TRIANGLES, i*indices, indices);
+        textures.bindTexture(texture_ids.at(i > texture_ids.size()-1 ? texture_ids.size()-1 : i));
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indices[0]+(i*3));
     }
     
 	glBindVertexArray(0);

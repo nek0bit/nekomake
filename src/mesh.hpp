@@ -15,10 +15,12 @@
 
 
 struct Mesh {
-	Mesh(unsigned int* VBO);
+	Mesh();
 	~Mesh();
 
-	void init(std::vector<float> vertices, std::vector<int> texture_ids);
+	void init(std::vector<float> vertices,
+              std::vector<int> texture_ids,
+              std::vector<unsigned int> indices = {});
     
 	void render(Shader& shader,
                 Textures& textures,
@@ -26,13 +28,14 @@ struct Mesh {
                 glm::vec3& rotateVertex,
                 glm::vec3& scaleVertex);
 
-    void bindBuffer(std::vector<float>& vertices);
+    void bindBuffer(std::vector<float>& vertices, std::vector<unsigned int> indices = {});
     
     std::vector<int> texture_ids;
 private:
+    std::vector<unsigned int> indices;
     int amount;
-	unsigned int* VBO;
-
+	unsigned int VBO;
+    unsigned int EBO;
 	unsigned int VAO;
 };
 
