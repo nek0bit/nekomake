@@ -1,9 +1,10 @@
 #include "chunk.hpp"
 
-Chunk::Chunk() : ready{false}, chunk{}, chunkMesh{}, vertices{}, textures{}, pos{0.0, 0.0, 0.0}, rot{0.0, 0.0, 0.0}, scale{1.0, 1.0, 1.0}, splitsGenerated{0}
+Chunk::Chunk() : ready{false}, chunk{}, chunkMesh{}, chunkObj{&chunkMesh, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0}, vertices{}, textures{},
+                 ebo{}, eboIndex{0}, pos{0.0, 0.0, 0.0}, rot{0.0, 0.0, 0.0}, scale{1.0, 1.0, 1.0}, splitsGenerated{0}
 {
     // Setup chunk mesh
-    
+    chunkMesh.init(vertices, textures, ebo);
     for (int i = 0; i <= constants::chunk::splitCount; ++i)
     {
             generateSplit();
@@ -62,11 +63,19 @@ void Chunk::generateChunkMesh()
 {
     for (auto& split: chunk)
     {
-        for (auto& block: split)
+        for (auto& array_block_y: split)
         {
-            //block->generateMesh(vertices, textures);
+            for (auto& array_block_z: array_block_y)
+            {
+                for (auto& block: array_block_z)
+                {
+                    block->generateMesh(vertices, textures, ebo, eboIndex);
+                }
+            }
         }
     }
+    chunkMesh.bindBuffer(vertices, ebo);
+    chunkMesh.texture_ids = textures;
 }
 
 void Chunk::generateSplit()
@@ -83,7 +92,7 @@ void Chunk::generateSplit()
                 {
                     chunk[splitsGenerated][y][z][x] = std::unique_ptr<Block>(
                         new Block(x,
-                                  y*yHeight,
+                                  y+(splitsGenerated*yHeight),
                                   z));
                     i++;
                 }
@@ -102,5 +111,5 @@ void Chunk::update()
 
 void Chunk::render(Shader& shader, Textures& textures)
 {
-    
+    chunkObj.render(shader, textures);
 }

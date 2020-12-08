@@ -12,7 +12,7 @@ Mesh::~Mesh()
 
 
 void Mesh::init(std::vector<float> vertices,
-                std::vector<int> texture_ids,
+                std::vector<unsigned int> texture_ids,
                 std::vector<unsigned int> indices)
 {
     glGenBuffers(1, &VBO);
@@ -66,11 +66,12 @@ void Mesh::render(Shader& shader,
 
     shader.setUniformMatrix4fv(shader.modelLoc, glm::value_ptr(model));
 
-    for (int i = 0; i < (amount/3); i++)
+    /*for (int i = 0; i < (amount/3); i++)
     {
         textures.bindTexture(texture_ids.at(i > texture_ids.size()-1 ? texture_ids.size()-1 : i));
         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indices[0]+(i*3));
-    }
+        }*/
+    glDrawElements(GL_TRIANGLES, (amount/3), GL_UNSIGNED_INT, 0);
     
 	glBindVertexArray(0);
 }

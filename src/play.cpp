@@ -71,6 +71,7 @@ void Play::update(Inputs& inputs)
 
 void Play::render()
 {
+    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     //Block block{0, 0, 0};
     //block.updateFaces({0, 1, 1, 1, 1, 1});
     //block.render(*shader, *textures);

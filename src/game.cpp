@@ -102,8 +102,8 @@ void Game::render()
 	// Begin
 
     play->render();
-    GameObject tester{&meshGroup[MESH_BLOCK], 0, 0, 0, 0, 0, 0, 1, 1, 1};
-    tester.render(shader, textures);
+    //GameObject tester{&meshGroup[MESH_BLOCK], 0, 0, 0, 0, 0, 0, 1, 1, 1};
+    //tester.render(shader, textures);
 
 	// End
 	glfwSwapBuffers(window);

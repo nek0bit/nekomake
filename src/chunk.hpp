@@ -45,8 +45,11 @@ private:
 
     // Chunk mesh
     Mesh chunkMesh;
+    GameObject chunkObj;
     std::vector<float> vertices;
-    std::vector<int> textures;
+    std::vector<unsigned int> textures;
+    std::vector<unsigned int> ebo;
+    unsigned int eboIndex;
 
     glm::vec3 pos;
     glm::vec3 rot;

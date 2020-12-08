@@ -19,7 +19,7 @@ struct Mesh {
 	~Mesh();
 
 	void init(std::vector<float> vertices,
-              std::vector<int> texture_ids,
+              std::vector<unsigned int> texture_ids,
               std::vector<unsigned int> indices = {});
     
 	void render(Shader& shader,
@@ -30,7 +30,7 @@ struct Mesh {
 
     void bindBuffer(std::vector<float>& vertices, std::vector<unsigned int> indices = {});
     
-    std::vector<int> texture_ids;
+    std::vector<unsigned int> texture_ids;
 private:
     std::vector<unsigned int> indices;
     int amount;
