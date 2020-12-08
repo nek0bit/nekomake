@@ -56,7 +56,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                                                                         10, 15, 16, 16, 4, 10,
                                                                         3, 2, 12, 12, 17, 3});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 17; // Max number in eboIndex is 17
+                eboIndex += 18; // Max number in eboIndex is 17
                 textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
@@ -70,7 +70,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                                                                         10, 15, 16, 16, 4, 10,
                                                                         3, 2, 12, 12, 17, 3});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 17; // Max number in eboIndex is 17
+                eboIndex += 18; // Max number in eboIndex is 17
                 textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
@@ -84,7 +84,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                                                                         10, 15, 16, 16, 4, 10,
                                                                         3, 2, 12, 12, 17, 3});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 17; // Max number in eboIndex is 17
+                eboIndex += 18; // Max number in eboIndex is 17
                 textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
@@ -98,7 +98,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                                                                         10, 15, 16, 16, 4, 10,
                                                                         3, 2, 12, 12, 17, 3});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 17; // Max number in eboIndex is 17
+                eboIndex += 18; // Max number in eboIndex is 17
                 textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
@@ -112,7 +112,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                                                                         10, 15, 16, 16, 4, 10,
                                                                         3, 2, 12, 12, 17, 3});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 17; // Max number in eboIndex is 17
+                eboIndex += 18; // Max number in eboIndex is 17
                 textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
@@ -126,11 +126,12 @@ void Block::generateMesh(std::vector<float>& vertices,
                                                                         10, 15, 16, 16, 4, 10,
                                                                         3, 2, 12, 12, 17, 3});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 17; // Max number in eboIndex is 17
+                eboIndex += 18; // Max number in eboIndex is 17
                 textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
         default:
+            std::cout << "um" << std::endl;
             break;
         }
     }
