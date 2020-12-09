@@ -29,12 +29,12 @@ Block* Chunk::blockAt(unsigned int x, unsigned int y, unsigned int z) const
 
 bool Chunk::isBlockAt(int x, int y, int z) const
 {
-    if (x > 0 && y > 0 && z > 0 &&
+    if (x >= 0 && y >= 0 && z >= 0 &&
         x < constants::chunk::volume[0] &&
         y < constants::chunk::volume[1] &&
         z < constants::chunk::volume[2])
     {
-        return blockAt(x, y, z) != nullptr;
+        return blockAt(x, y, z);
     }
     return false;
 }
@@ -49,17 +49,20 @@ void Chunk::updateBlockFaces()
             {
                 for (auto& block: array_block_z)
                 {
+                    const int bx = block->x;
+                    const int by = block->y;
+                    const int bz = block->z;
+
                     std::array<bool, 6> sides = {
-                        !isBlockAt(block->x, block->y, block->z-1), // Left side
-                        !isBlockAt(block->x, block->y, block->z+1), // Right side
-                        !isBlockAt(block->x-1, block->y, block->z), // Front side
-                        !isBlockAt(block->x+1, block->y, block->z), // Back side
-                        !isBlockAt(block->x, block->y-1, block->z), // Bottom side
-                        !isBlockAt(block->x, block->y+1, block->z)  // Top side
+                        !isBlockAt(bx, by, bz-1), // Left side
+                        !isBlockAt(bx, by, bz+1), // Right side
+                        !isBlockAt(bx-1, by, bz), // Front side
+                        !isBlockAt(bx+1, by, bz), // Back side
+                        !isBlockAt(bx, by-1, bz), // Bottom side
+                        !isBlockAt(bx, by+1, bz)  // Top side
                     };
 
                     block->faces = sides;
-                    //block->faces = {1, 1, 1, 1, 1, 1};
                 }
             }
         }
