@@ -43,16 +43,16 @@ void Chunk::updateBlockFaces()
             {
                 for (auto& block: array_block_z)
                 {
-                    std::array<bool, 6> sides = {
+                    /*std::array<bool, 6> sides = {
                         !isBlockAt(block->x-1, block->y, block->z),
                         !isBlockAt(block->x, block->y, block->z-1),
                         !isBlockAt(block->x+1, block->y, block->z),
                         !isBlockAt(block->x, block->y, block->z+1),
                         !isBlockAt(block->x, block->y+1, block->z),
                         !isBlockAt(block->x, block->y-1, block->z)
-                        };
+                        };*/
 
-                    block->faces = sides;
+                    //block->faces = {1, 1, 1, 1, 1, 1};
                 }
             }
         }
@@ -82,8 +82,6 @@ void Chunk::generateSplit()
 {
     if (!ready)
     {
-        int i = 0;
-
         for (int x = 0; x < constants::chunk::volume[0]; ++x)
         {
             for (int y = 0; y < yHeight; ++y)
@@ -94,7 +92,6 @@ void Chunk::generateSplit()
                         new Block(x,
                                   y+(splitsGenerated*yHeight),
                                   z));
-                    i++;
                 }
             }
         }

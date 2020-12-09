@@ -11,9 +11,9 @@ void Block::generateMesh(std::vector<float>& vertices,
                          std::vector<unsigned int>& ebo,
                          unsigned int& eboIndex)
 {
-    const float offX = x * constants::block::blockSize;
-    const float offY = y * constants::block::blockSize;
-    const float offZ = z * constants::block::blockSize;
+    const float offX = x;
+    const float offY = y;
+    const float offZ = z;
 
     // First insert the vertices with the predefined cube
     vertices.insert(vertices.end(), {
@@ -41,6 +41,8 @@ void Block::generateMesh(std::vector<float>& vertices,
 
             offX-1.0f, offY+1.0f, offZ+1.0f, 0.0f, 0.0f, // 17
         });
+    eboIndex += 18; // Max number in eboIndex is 17
+
     
     for (size_t i = 0; i < faces.size(); ++i)
     {
@@ -49,85 +51,50 @@ void Block::generateMesh(std::vector<float>& vertices,
         case 0: // Side 1
             if (faces[i])
             {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,
-                                                                        4, 5, 6, 6, 7, 4,
-                                                                        8, 9, 10, 10, 11, 8,
-                                                                        12, 2, 13, 13, 14, 12,
-                                                                        10, 15, 16, 16, 4, 10,
-                                                                        3, 2, 12, 12, 17, 3});
+                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 18; // Max number in eboIndex is 17
-                textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
         case 1: // Side 2
             if (faces[i])
             {                
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,
-                                                                        4, 5, 6, 6, 7, 4,
-                                                                        8, 9, 10, 10, 11, 8,
-                                                                        12, 2, 13, 13, 14, 12,
-                                                                        10, 15, 16, 16, 4, 10,
-                                                                        3, 2, 12, 12, 17, 3});
+                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {4, 5, 6, 6, 7, 4});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 18; // Max number in eboIndex is 17
-                textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
         case 2: // Side 3
             if (faces[i])
             {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,
-                                                                        4, 5, 6, 6, 7, 4,
-                                                                        8, 9, 10, 10, 11, 8,
-                                                                        12, 2, 13, 13, 14, 12,
-                                                                        10, 15, 16, 16, 4, 10,
-                                                                        3, 2, 12, 12, 17, 3});
+                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {8, 9, 10, 10, 11, 8
+                                                                        });
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 18; // Max number in eboIndex is 17
-                textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
         case 3: // Side 4
             if (faces[i])
             {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,
-                                                                        4, 5, 6, 6, 7, 4,
-                                                                        8, 9, 10, 10, 11, 8,
-                                                                        12, 2, 13, 13, 14, 12,
-                                                                        10, 15, 16, 16, 4, 10,
-                                                                        3, 2, 12, 12, 17, 3});
+                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {12, 2, 13, 13, 14, 12});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 18; // Max number in eboIndex is 17
-                textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
         case 4: // Side 5
             if (faces[i])
             {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,
-                                                                        4, 5, 6, 6, 7, 4,
-                                                                        8, 9, 10, 10, 11, 8,
-                                                                        12, 2, 13, 13, 14, 12,
-                                                                        10, 15, 16, 16, 4, 10,
-                                                                        3, 2, 12, 12, 17, 3});
+                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {10, 15, 16, 16, 4, 10});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 18; // Max number in eboIndex is 17
-                textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
         case 5: // Side 6
             if (faces[i])
             {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,
-                                                                        4, 5, 6, 6, 7, 4,
-                                                                        8, 9, 10, 10, 11, 8,
-                                                                        12, 2, 13, 13, 14, 12,
-                                                                        10, 15, 16, 16, 4, 10,
-                                                                        3, 2, 12, 12, 17, 3});
+                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {3, 2, 12, 12, 17, 3});
                 ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                eboIndex += 18; // Max number in eboIndex is 17
-                textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
             }
             break;
         default:

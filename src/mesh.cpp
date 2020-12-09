@@ -71,7 +71,7 @@ void Mesh::render(Shader& shader,
         textures.bindTexture(texture_ids.at(i > texture_ids.size()-1 ? texture_ids.size()-1 : i));
         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indices[0]+(i*3));
         }*/
-    glDrawElements(GL_TRIANGLES, (amount/3), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, amount, GL_UNSIGNED_INT, 0);
     
 	glBindVertexArray(0);
 }
