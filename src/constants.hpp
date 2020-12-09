@@ -34,7 +34,7 @@ namespace constants
     namespace chunk
     {
         /* extern constexpr isn't valid, so I defined them here */
-        constexpr chunkVolume_t volume = {4, 50, 4};
-        constexpr int splitCount = 5;
+        constexpr chunkVolume_t volume = {8, 300, 8};
+        constexpr int splitCount = 30;
     }
 }

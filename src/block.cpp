@@ -11,96 +11,109 @@ void Block::generateMesh(std::vector<float>& vertices,
                          std::vector<unsigned int>& ebo,
                          unsigned int& eboIndex)
 {
-    const float offX = x;
-    const float offY = y;
-    const float offZ = z;
+    float offX = x;
+    float offY = y;
+    float offZ = z;
 
-    // First insert the vertices with the predefined cube
-    vertices.insert(vertices.end(), {
-            offX-1.0f, offY-1.0f, offZ-1.0f, 0.0f, 0.0f, // 0
-            offX+1.0f, offY-1.0f, offZ-1.0f, 1.0f, 0.0f, // 1
-            offX+1.0f, offY+1.0f, offZ-1.0f, 1.0f, 1.0f, // 2
-            offX-1.0f, offY+1.0f, offZ-1.0f, 0.0f, 1.0f, // 3
+    const float size = 0.5f;
 
-            offX-1.0f, offY-1.0f, offZ+1.0f, 0.0f, 0.0f, // 4
-            offX+1.0f, offY-1.0f, offZ+1.0f, 1.0f, 0.0f, // 5
-            offX+1.0f, offY+1.0f, offZ+1.0f, 1.0f, 1.0f, // 6
-            offX-1.0f, offY+1.0f, offZ+1.0f, 0.0f, 1.0f, // 7
+    // First insert the vertices with the predefined cube (if neccesary)
+    bool hasFaces = false;
 
-            offX-1.0f, offY+1.0f, offZ+1.0f, 1.0f, 0.0f, // 8
-            offX-1.0f, offY+1.0f, offZ-1.0f, 1.0f, 1.0f, // 9
-            offX-1.0f, offY-1.0f, offZ-1.0f, 0.0f, 1.0f, // 10
-            offX-1.0f, offY-1.0f, offZ+1.0f, 0.0f, 0.0f, // 11
-
-            offX+1.0f, offY+1.0f, offZ+1.0f, 1.0f, 0.0f, // 12
-            offX+1.0f, offY-1.0f, offZ-1.0f, 0.0f, 1.0f, // 13
-            offX+1.0f, offY-1.0f, offZ+1.0f, 0.0f, 0.0f, // 14
-
-            offX+1.0f, offY-1.0f, offZ-1.0f, 1.0f, 1.0f, // 15
-            offX+1.0f, offY-1.0f, offZ+1.0f, 1.0f, 0.0f, // 16
-
-            offX-1.0f, offY+1.0f, offZ+1.0f, 0.0f, 0.0f, // 17
-        });
-    eboIndex += 18; // Max number in eboIndex is 17
-
-    
-    for (size_t i = 0; i < faces.size(); ++i)
+    if (std::find(faces.begin(), faces.end(), true))
     {
-        switch(i)
-        {
-        case 0: // Side 1
-            if (faces[i])
+        // A dynamic cube
+        vertices.insert(vertices.end(), {
+                offX-size, offY-size, offZ-size, 0.0f, 0.0f, // 0
+                offX+size, offY-size, offZ-size, 1.0f, 0.0f, // 1
+                offX+size, offY+size, offZ-size, 1.0f, 1.0f, // 2
+                offX-size, offY+size, offZ-size, 0.0f, 1.0f, // 3
+                
+                offX-size, offY-size, offZ+size, 0.0f, 0.0f, // 4
+                offX+size, offY-size, offZ+size, 1.0f, 0.0f, // 5
+                offX+size, offY+size, offZ+size, 1.0f, 1.0f, // 6
+                offX-size, offY+size, offZ+size, 0.0f, 1.0f, // 7
+                
+                offX-size, offY+size, offZ+size, 1.0f, 0.0f, // 8
+                offX-size, offY+size, offZ-size, 1.0f, 1.0f, // 9
+                offX-size, offY-size, offZ-size, 0.0f, 1.0f, // 10
+                offX-size, offY-size, offZ+size, 0.0f, 0.0f, // 11
+                
+                offX+size, offY+size, offZ+size, 1.0f, 0.0f, // 12
+                offX+size, offY-size, offZ-size, 0.0f, 1.0f, // 13
+                offX+size, offY-size, offZ+size, 0.0f, 0.0f, // 14
+                
+                offX+size, offY-size, offZ-size, 1.0f, 1.0f, // 15
+                offX+size, offY-size, offZ+size, 1.0f, 0.0f, // 16
+                
+                offX-size, offY+size, offZ+size, 0.0f, 0.0f, // 17
+            });
+        hasFaces = true;
+    }
+
+    if (hasFaces)
+    {
+        for (size_t i = 0; i < faces.size(); ++i)
+        {            
+            switch(i)
             {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,});
-                ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+            case 0: // Side 1
+                if (faces[i])
+                {
+                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,});
+                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
+                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                }
+                
+                break;
+            case 1: // Side 2
+                if (faces[i])
+                {                
+                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {4, 5, 6, 6, 7, 4});
+                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
+                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                }
+                break;
+            case 2: // Side 3
+                if (faces[i])
+                {
+                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {8, 9, 10, 10, 11, 8
+                        });
+                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
+                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                }
+                break;
+            case 3: // Side 4
+                if (faces[i])
+                {
+                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {12, 2, 13, 13, 14, 12});
+                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
+                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                }
+                break;
+            case 4: // Side 5
+                if (faces[i])
+                {
+                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {10, 15, 16, 16, 4, 10});
+                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
+                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                }
+                break;
+            case 5: // Side 6
+                if (faces[i])
+                {
+                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {3, 2, 12, 12, 17, 3});
+                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
+                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                }
+                break;
+            default:
+                break;
             }
-            break;
-        case 1: // Side 2
-            if (faces[i])
-            {                
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {4, 5, 6, 6, 7, 4});
-                ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-            }
-            break;
-        case 2: // Side 3
-            if (faces[i])
-            {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {8, 9, 10, 10, 11, 8
-                                                                        });
-                ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-            }
-            break;
-        case 3: // Side 4
-            if (faces[i])
-            {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {12, 2, 13, 13, 14, 12});
-                ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-            }
-            break;
-        case 4: // Side 5
-            if (faces[i])
-            {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {10, 15, 16, 16, 4, 10});
-                ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-            }
-            break;
-        case 5: // Side 6
-            if (faces[i])
-            {
-                std::vector<unsigned int> newVec = vecAddNum(eboIndex, {3, 2, 12, 12, 17, 3});
-                ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-            }
-            break;
-        default:
-            std::cout << "um" << std::endl;
-            break;
         }
+
+        // Increment the ebo index for future cubes
+        eboIndex += 18; // Max number in ebo for the cube is 17
     }
 }
 
