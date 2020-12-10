@@ -68,9 +68,11 @@ void Mesh::render(Shader& shader,
     {
         glActiveTexture(GL_TEXTURE0 + i);
 
+        //glUniform1i(glGetUniformLocation(shader.program, "texturesamp"), i);
         textures.bindTexture(texture_ids[i]);
     }
 
+    
     shader.setUniformMatrix4fv(shader.modelLoc, glm::value_ptr(model));
 
     glActiveTexture(GL_TEXTURE0);
