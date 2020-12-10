@@ -10,6 +10,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "vertex.hpp"
 #include "shader.hpp"
 #include "textures.hpp"
 
@@ -18,7 +19,7 @@ struct Mesh {
 	Mesh();
 	~Mesh();
 
-	void init(std::vector<float> vertices,
+	void init(std::vector<Vertex> vertices,
               std::vector<unsigned int> texture_ids,
               std::vector<unsigned int> indices = {});
     
@@ -28,7 +29,7 @@ struct Mesh {
                 glm::vec3& rotateVertex,
                 glm::vec3& scaleVertex);
 
-    void bindBuffer(std::vector<float>& vertices, std::vector<unsigned int> indices = {});
+    void bindBuffer(std::vector<Vertex>& vertices, std::vector<unsigned int> indices = {});
     
     std::vector<unsigned int> texture_ids;
 private:

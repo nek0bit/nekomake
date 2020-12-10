@@ -2,9 +2,17 @@
 
 project(nekomake)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 if (MSVC)
   include_directories(include/)
 elseif(UNIX)
+  set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+  set(CMAKE_CXX_FLAGS_DEBUG "-g")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -ffast-math")
+  
   include_directories(/usr/include include/)
 endif()
 

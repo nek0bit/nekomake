@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "vertex.hpp"
 #include "generic.hpp"
 #include "constants.hpp"
 #include "block.hpp"
@@ -46,7 +47,7 @@ private:
     // Chunk mesh
     Mesh chunkMesh;
     GameObject chunkObj;
-    std::vector<float> vertices;
+    std::vector<Vertex> vertices;
     std::vector<unsigned int> textures;
     std::vector<unsigned int> ebo;
     unsigned int eboIndex;

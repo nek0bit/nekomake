@@ -11,7 +11,7 @@ Mesh::~Mesh()
 {}
 
 
-void Mesh::init(std::vector<float> vertices,
+void Mesh::init(std::vector<Vertex> vertices,
                 std::vector<unsigned int> texture_ids,
                 std::vector<unsigned int> indices)
 {
@@ -25,22 +25,22 @@ void Mesh::init(std::vector<float> vertices,
 	// Attributes
 
     // TODO move this to opengl init method
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
     this->texture_ids = texture_ids;
 }
 
-void Mesh::bindBuffer(std::vector<float>& vertices, std::vector<unsigned int> indices)
+void Mesh::bindBuffer(std::vector<Vertex>& vertices, std::vector<unsigned int> indices)
 {
     amount = indices.size();
     
     glBindVertexArray(VAO);
     
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(&vertices[0]), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(&indices[0]), &indices[0], GL_STATIC_DRAW);
 }
@@ -64,8 +64,16 @@ void Mesh::render(Shader& shader,
 
     model = glm::scale(model, scaleVertex);
 
+    for (int i = 0; i < texture_ids.size(); ++i)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+
+        textures.bindTexture(texture_ids[i]);
+    }
+
     shader.setUniformMatrix4fv(shader.modelLoc, glm::value_ptr(model));
 
+    glActiveTexture(GL_TEXTURE0);
     /*for (int i = 0; i < (amount/3); i++)
     {
         textures.bindTexture(texture_ids.at(i > texture_ids.size()-1 ? texture_ids.size()-1 : i));

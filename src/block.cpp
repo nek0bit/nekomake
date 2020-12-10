@@ -6,7 +6,7 @@ Block::Block(int x, int y, int z) : faces{1, 1, 1, 1, 1, 1}, x{x}, y{y}, z{z}
 Block::~Block()
 {}
 
-void Block::generateMesh(std::vector<float>& vertices,
+void Block::generateMesh(std::vector<Vertex>& vertices,
                          std::vector<unsigned int>& textures,
                          std::vector<unsigned int>& ebo,
                          unsigned int& eboIndex)
@@ -24,29 +24,29 @@ void Block::generateMesh(std::vector<float>& vertices,
     {
         // A dynamic cube
         vertices.insert(vertices.end(), {
-                offX-size, offY-size, offZ-size, 0.0f, 0.0f, // 0
-                offX+size, offY-size, offZ-size, 1.0f, 0.0f, // 1
-                offX+size, offY+size, offZ-size, 1.0f, 1.0f, // 2
-                offX-size, offY+size, offZ-size, 0.0f, 1.0f, // 3
+                Vertex{offX-size, offY-size, offZ-size, 0.0f, 0.0f}, // 0
+                Vertex{offX+size, offY-size, offZ-size, 1.0f, 0.0f}, // 1
+                Vertex{offX+size, offY+size, offZ-size, 1.0f, 1.0f}, // 2
+                Vertex{offX-size, offY+size, offZ-size, 0.0f, 1.0f}, // 3
                 
-                offX-size, offY-size, offZ+size, 0.0f, 0.0f, // 4
-                offX+size, offY-size, offZ+size, 1.0f, 0.0f, // 5
-                offX+size, offY+size, offZ+size, 1.0f, 1.0f, // 6
-                offX-size, offY+size, offZ+size, 0.0f, 1.0f, // 7
+                Vertex{offX-size, offY-size, offZ+size, 0.0f, 0.0f}, // 4
+                Vertex{offX+size, offY-size, offZ+size, 1.0f, 0.0f}, // 5
+                Vertex{offX+size, offY+size, offZ+size, 1.0f, 1.0f}, // 6
+                Vertex{offX-size, offY+size, offZ+size, 0.0f, 1.0f}, // 7
                 
-                offX-size, offY+size, offZ+size, 1.0f, 0.0f, // 8
-                offX-size, offY+size, offZ-size, 1.0f, 1.0f, // 9
-                offX-size, offY-size, offZ-size, 0.0f, 1.0f, // 10
-                offX-size, offY-size, offZ+size, 0.0f, 0.0f, // 11
+                Vertex{offX-size, offY+size, offZ+size, 1.0f, 0.0f}, // 8
+                Vertex{offX-size, offY+size, offZ-size, 1.0f, 1.0f}, // 9
+                Vertex{offX-size, offY-size, offZ-size, 0.0f, 1.0f}, // 10
+                Vertex{offX-size, offY-size, offZ+size, 0.0f, 0.0f}, // 11
                 
-                offX+size, offY+size, offZ+size, 1.0f, 0.0f, // 12
-                offX+size, offY-size, offZ-size, 0.0f, 1.0f, // 13
-                offX+size, offY-size, offZ+size, 0.0f, 0.0f, // 14
+                Vertex{offX+size, offY+size, offZ+size, 1.0f, 0.0f}, // 12
+                Vertex{offX+size, offY-size, offZ-size, 0.0f, 1.0f}, // 13
+                Vertex{offX+size, offY-size, offZ+size, 0.0f, 0.0f}, // 14
                 
-                offX+size, offY-size, offZ-size, 1.0f, 1.0f, // 15
-                offX+size, offY-size, offZ+size, 1.0f, 0.0f, // 16
+                Vertex{offX+size, offY-size, offZ-size, 1.0f, 1.0f}, // 15
+                Vertex{offX+size, offY-size, offZ+size, 1.0f, 0.0f}, // 16
                 
-                offX-size, offY+size, offZ+size, 0.0f, 0.0f, // 17
+                Vertex{offX-size, offY+size, offZ+size, 0.0f, 0.0f}, // 17
             });
         hasFaces = true;
     }
@@ -62,7 +62,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                 {
                     std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,});
                     ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                    textures.insert(textures.end(), {0, 1});
                 }
                 
                 break;
@@ -71,7 +71,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                 {                
                     std::vector<unsigned int> newVec = vecAddNum(eboIndex, {4, 5, 6, 6, 7, 4});
                     ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                    textures.insert(textures.end(), {0, 1});
                 }
                 break;
             case 2: // Side 3
@@ -80,7 +80,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                     std::vector<unsigned int> newVec = vecAddNum(eboIndex, {8, 9, 10, 10, 11, 8
                         });
                     ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                    textures.insert(textures.end(), {0, 1});
                 }
                 break;
             case 3: // Side 4
@@ -88,7 +88,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                 {
                     std::vector<unsigned int> newVec = vecAddNum(eboIndex, {12, 2, 13, 13, 14, 12});
                     ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                    textures.insert(textures.end(), {0, 1});
                 }
                 break;
             case 4: // Side 5
@@ -96,7 +96,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                 {
                     std::vector<unsigned int> newVec = vecAddNum(eboIndex, {10, 15, 16, 16, 4, 10});
                     ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                    textures.insert(textures.end(), {0, 1});
                 }
                 break;
             case 5: // Side 6
@@ -104,7 +104,7 @@ void Block::generateMesh(std::vector<float>& vertices,
                 {
                     std::vector<unsigned int> newVec = vecAddNum(eboIndex, {3, 2, 12, 12, 17, 3});
                     ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    //textures.insert(textures.end(), {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                    textures.insert(textures.end(), {0, 1});
                 }
                 break;
             default:

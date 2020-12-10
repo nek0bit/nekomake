@@ -24,9 +24,12 @@ Game::Game(GLFWwindow* window,
 
     textures.load(textures_str);
 
-    meshGroup.push_back(Mesh{});
+    /*
+      BLOCK FOR REFERENCE
+      ===================
+      meshGroup.push_back(Mesh{});
 
-    meshGroup[MESH_BLOCK].init(std::vector<float>{
+      meshGroup[MESH_BLOCK].init(std::vector<float>{
             -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, // 0
             1.0f, -1.0f, -1.0f, 1.0f, 0.0f, // 1
             1.0f, 1.0f, -1.0f, 1.0f, 1.0f, // 2
@@ -61,7 +64,9 @@ Game::Game(GLFWwindow* window,
             12, 2, 13, 13, 14, 12,
             10, 15, 16, 16, 4, 10,
             3, 2, 12, 12, 17, 3
-        });
+        }
+        );
+    */
 
     constants::block::blockMesh = &meshGroup[MESH_BLOCK];
 
@@ -102,8 +107,6 @@ void Game::render()
 	// Begin
 
     play->render();
-    //GameObject tester{&meshGroup[MESH_BLOCK], 0, 0, 0, 0, 0, 0, 1, 1, 1};
-    //tester.render(shader, textures);
 
 	// End
 	glfwSwapBuffers(window);

@@ -4,6 +4,7 @@
 #include <array>
 #include <vector>
 
+#include "vertex.hpp"
 #include "constants.hpp"
 #include "game_object.hpp"
 
@@ -14,7 +15,7 @@ struct Block
     Block(int x = 0, int y = 0, int z = 0);
     virtual ~Block();
 
-    void generateMesh(std::vector<float>& vertices,
+    void generateMesh(std::vector<Vertex>& vertices,
                       std::vector<unsigned int>& textures,
                       std::vector<unsigned int>& ebo,
                       unsigned int& eboIndex);
