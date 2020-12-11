@@ -3,7 +3,7 @@
 constexpr int count = 5;
 constexpr int t_indices = 3;
 
-Mesh::Mesh() : VBO{0}, EBO{0}, VAO{ 0 }, amount{ 0 }
+Mesh::Mesh() : texture{0}, VBO{0}, EBO{0}, VAO{ 0 }, indiceSize{ 0 }
 {
 }
 
@@ -12,7 +12,6 @@ Mesh::~Mesh()
 
 
 void Mesh::init(std::vector<Vertex> vertices,
-                std::vector<unsigned int> texture_ids,
                 std::vector<unsigned int> indices)
 {
     glGenBuffers(1, &VBO);
@@ -30,12 +29,11 @@ void Mesh::init(std::vector<Vertex> vertices,
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-    this->texture_ids = texture_ids;
 }
 
 void Mesh::bindBuffer(std::vector<Vertex>& vertices, std::vector<unsigned int> indices)
 {
-    amount = indices.size();
+    indiceSize = indices.size();
     
     glBindVertexArray(VAO);
     
@@ -64,24 +62,12 @@ void Mesh::render(Shader& shader,
 
     model = glm::scale(model, scaleVertex);
 
-    for (int i = 0; i < texture_ids.size(); ++i)
-    {
-        glActiveTexture(GL_TEXTURE0 + i);
-
-        //glUniform1i(glGetUniformLocation(shader.program, "texturesamp"), i);
-        textures.bindTexture(texture_ids[i]);
-    }
-
-    
     shader.setUniformMatrix4fv(shader.modelLoc, glm::value_ptr(model));
 
-    glActiveTexture(GL_TEXTURE0);
-    /*for (int i = 0; i < (amount/3); i++)
-    {
-        textures.bindTexture(texture_ids.at(i > texture_ids.size()-1 ? texture_ids.size()-1 : i));
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indices[0]+(i*3));
-        }*/
-    glDrawElements(GL_TRIANGLES, amount, GL_UNSIGNED_INT, 0);
+    textures.bindTexture(texture);
+
+    
+    glDrawElements(GL_TRIANGLES, indiceSize, GL_UNSIGNED_INT, 0);
     
 	glBindVertexArray(0);
 }

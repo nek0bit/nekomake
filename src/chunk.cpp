@@ -1,10 +1,10 @@
 #include "chunk.hpp"
 
-Chunk::Chunk() : ready{false}, chunk{}, chunkMesh{}, chunkObj{&chunkMesh, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0}, vertices{}, textures{},
+Chunk::Chunk() : ready{false}, chunk{}, chunkMesh{}, chunkObj{&chunkMesh, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0}, vertices{},
                  ebo{}, eboIndex{0}, pos{0.0, 0.0, 0.0}, rot{0.0, 0.0, 0.0}, scale{1.0, 1.0, 1.0}, splitsGenerated{0}
 {
     // Setup chunk mesh
-    chunkMesh.init(vertices, textures, ebo);
+    chunkMesh.init(vertices, ebo);
     for (int i = 0; i <= constants::chunk::splitCount; ++i)
     {
             generateSplit();
@@ -79,13 +79,12 @@ void Chunk::generateChunkMesh()
             {
                 for (auto& block: array_block_z)
                 {
-                    block->generateMesh(vertices, textures, ebo, eboIndex);
+                    block->generateMesh(vertices, ebo, eboIndex);
                 }
             }
         }
     }
     chunkMesh.bindBuffer(vertices, ebo);
-    chunkMesh.texture_ids = textures;
 }
 
 void Chunk::generateSplit()

@@ -7,7 +7,6 @@ Block::~Block()
 {}
 
 void Block::generateMesh(std::vector<Vertex>& vertices,
-                         std::vector<unsigned int>& textures,
                          std::vector<unsigned int>& ebo,
                          unsigned int& eboIndex)
 {
@@ -54,61 +53,55 @@ void Block::generateMesh(std::vector<Vertex>& vertices,
     if (hasFaces)
     {
         for (size_t i = 0; i < faces.size(); ++i)
-        {            
+        {
+            std::vector<unsigned int> newVec;
+            
             switch(i)
             {
             case 0: // Side 1
                 if (faces[i])
                 {
-                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,});
-                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    textures.insert(textures.end(), {0, 1});
+                    newVec = vecAddNum(eboIndex, {0, 1, 2, 2, 3, 0,});
                 }
                 
                 break;
             case 1: // Side 2
                 if (faces[i])
                 {                
-                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {4, 5, 6, 6, 7, 4});
-                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    textures.insert(textures.end(), {0, 1});
+                    newVec = vecAddNum(eboIndex, {4, 5, 6, 6, 7, 4});
                 }
                 break;
             case 2: // Side 3
                 if (faces[i])
                 {
-                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {8, 9, 10, 10, 11, 8
-                        });
-                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    textures.insert(textures.end(), {0, 1});
+                    newVec = vecAddNum(eboIndex, {8, 9, 10, 10, 11, 8});
                 }
                 break;
             case 3: // Side 4
                 if (faces[i])
                 {
-                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {12, 2, 13, 13, 14, 12});
-                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    textures.insert(textures.end(), {0, 1});
+                    newVec = vecAddNum(eboIndex, {12, 2, 13, 13, 14, 12});
                 }
                 break;
             case 4: // Side 5
                 if (faces[i])
                 {
-                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {10, 15, 16, 16, 4, 10});
-                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    textures.insert(textures.end(), {0, 1});
+                    newVec = vecAddNum(eboIndex, {10, 15, 16, 16, 4, 10});
                 }
                 break;
             case 5: // Side 6
                 if (faces[i])
                 {
-                    std::vector<unsigned int> newVec = vecAddNum(eboIndex, {3, 2, 12, 12, 17, 3});
-                    ebo.insert(ebo.end(), newVec.begin(), newVec.end());
-                    textures.insert(textures.end(), {0, 1});
+                    newVec = vecAddNum(eboIndex, {3, 2, 12, 12, 17, 3});
                 }
                 break;
             default:
                 break;
+            }
+
+            if (faces[i])
+            {
+                ebo.insert(ebo.end(), newVec.begin(), newVec.end());
             }
         }
 

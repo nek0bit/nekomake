@@ -1,10 +1,20 @@
 #pragma once
 
-struct Vertex
+struct VPos
 {
     float x;
     float y;
     float z;
-    float UVx;
-    float UVy;
+};
+
+struct UVPos
+{
+    float x;
+    float y;
+};
+
+struct Vertex
+{
+    VPos Pos;
+    UVPos UV;
 };

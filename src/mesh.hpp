@@ -20,8 +20,7 @@ struct Mesh {
 	~Mesh();
 
 	void init(std::vector<Vertex> vertices,
-              std::vector<unsigned int> texture_ids,
-              std::vector<unsigned int> indices = {});
+              std::vector<unsigned int> indices);
     
 	void render(Shader& shader,
                 Textures& textures,
@@ -29,12 +28,12 @@ struct Mesh {
                 glm::vec3& rotateVertex,
                 glm::vec3& scaleVertex);
 
-    void bindBuffer(std::vector<Vertex>& vertices, std::vector<unsigned int> indices = {});
-    
-    std::vector<unsigned int> texture_ids;
+    void bindBuffer(std::vector<Vertex>& vertices, std::vector<unsigned int> indices);
+
+    unsigned int texture;
 private:
-    std::vector<unsigned int> indices;
-    int amount;
+    size_t indiceSize;
+    
 	unsigned int VBO;
     unsigned int EBO;
 	unsigned int VAO;

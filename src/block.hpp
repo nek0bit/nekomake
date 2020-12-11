@@ -16,7 +16,6 @@ struct Block
     virtual ~Block();
 
     void generateMesh(std::vector<Vertex>& vertices,
-                      std::vector<unsigned int>& textures,
                       std::vector<unsigned int>& ebo,
                       unsigned int& eboIndex);
     
