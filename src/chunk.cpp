@@ -1,14 +1,25 @@
 #include "chunk.hpp"
 
-Chunk::Chunk() : ready{false}, chunk{}, chunkMesh{}, chunkObj{&chunkMesh, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0}, vertices{},
-                 ebo{}, eboIndex{0}, pos{0.0, 0.0, 0.0}, rot{0.0, 0.0, 0.0}, scale{1.0, 1.0, 1.0}, splitsGenerated{0}
+Chunk::Chunk()
+    : ready{false},
+      chunk{},
+      blockGrid{constants::block::pixelSize, constants::block::pixelSize,
+                constants::block::texWidth, constants::block::texHeight},
+      chunkMesh{},
+      chunkObj{&chunkMesh, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0},
+      vertices{},
+      ebo{},
+      eboIndex{0},
+      pos{0.0, 0.0, 0.0},
+      rot{0.0, 0.0, 0.0},
+      scale{1.0, 1.0, 1.0},
+      splitsGenerated{0}
 {
     // Setup chunk mesh
     chunkMesh.init(vertices, ebo);
     for (int i = 0; i <= constants::chunk::splitCount; ++i)
     {
             generateSplit();
-
     }
 
     updateBlockFaces();
@@ -79,7 +90,7 @@ void Chunk::generateChunkMesh()
             {
                 for (auto& block: array_block_z)
                 {
-                    block->generateMesh(vertices, ebo, eboIndex);
+                    block->generateMesh(vertices, ebo, eboIndex, blockGrid);
                 }
             }
         }
@@ -98,7 +109,8 @@ void Chunk::generateSplit()
                 for (int z = 0; z < constants::chunk::volume[2]; ++z)
                 {
                     chunk[splitsGenerated][y][z][x] = std::unique_ptr<Block>(
-                        new Block(x,
+                        new Block(0,
+                                  x,
                                   y+(splitsGenerated*yHeight),
                                   z));
                 }

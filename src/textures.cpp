@@ -19,10 +19,17 @@ void Textures::load(std::vector<std::string>& textures_str)
 void Textures::loadTextures(std::vector<std::string>& textures_str)
 {
     for (auto& str : textures_str) {
+        
+        // Set options for texture
+        
+        
 		unsigned int texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        
 		stbi_set_flip_vertically_on_load(true);
 
 		int width, height, channels;
@@ -30,6 +37,7 @@ void Textures::loadTextures(std::vector<std::string>& textures_str)
 
 		if (data)
 		{
+            
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}

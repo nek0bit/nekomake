@@ -18,8 +18,7 @@ Game::Game(GLFWwindow* window,
 
 
     std::vector<std::string> textures_str = {
-        root_data + "sample.png",
-        root_data + "dirt.png"
+        root_data + "CubePackDefault.png"
     };
 
     textures.load(textures_str);
@@ -82,9 +81,7 @@ void Game::initGL()
 {
     glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);   
 }
 
 void Game::update()

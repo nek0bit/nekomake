@@ -12,6 +12,7 @@
 #include "generic.hpp"
 #include "constants.hpp"
 #include "block.hpp"
+#include "texture_grid.hpp"
 
 constexpr int yHeight = (constants::chunk::volume[1]/constants::chunk::splitCount);
 // 4D array [split, y, z, x]
@@ -43,6 +44,8 @@ private:
     bool ready;
     // a 1dim array should be fine here
     Voxel_t chunk;
+
+    TextureGrid blockGrid;
 
     // Chunk mesh
     Mesh chunkMesh;

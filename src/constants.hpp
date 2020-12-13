@@ -1,7 +1,9 @@
 #pragma once
 
+#include <string>
 #include <array>
 
+#include "blockinfo.hpp"
 #include "mesh.hpp"
 
 typedef std::array<int, 3> chunkVolume_t;
@@ -29,6 +31,8 @@ namespace constants
     {
         extern Mesh* blockMesh;
         extern double blockSize;
+        extern int texWidth, texHeight, pixelSize;
+        extern std::vector<BlockInfo> blockInfo;
     }
     
     namespace chunk
