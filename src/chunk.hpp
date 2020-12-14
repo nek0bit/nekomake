@@ -15,27 +15,20 @@
 #include "texture_grid.hpp"
 
 constexpr int yHeight = (constants::chunk::volume[1]/constants::chunk::splitCount);
-// 4D array [split, y, z, x]
-typedef std::array<
-    std::array<
-        std::array<
-            std::array<
-                std::unique_ptr<Block>,
-                constants::chunk::volume[0]>,
-            constants::chunk::volume[2]>,
-        constants::chunk::volume[1]/constants::chunk::splitCount>,
-    constants::chunk::splitCount> Voxel_t;
+
+// x, y, then z
+typedef std::array<std::vector<Block>, constants::chunk::splitCount> Voxel_t;
 
 struct Chunk
 {
-    Chunk();
+    Chunk(int x, int z);
     ~Chunk();
 
     void update();
     void render(Shader& shader, Textures& textures);
 
-    Block* blockAt(unsigned int x, unsigned int y, unsigned int z) const;
-    bool isBlockAt(int x, int y, int z) const;
+    Block* blockAt(unsigned int x, unsigned int y, unsigned int z);
+    bool isBlockAt(int x, int y, int z);
 
     void generateChunkMesh();
     void updateBlockFaces();
@@ -46,6 +39,9 @@ private:
     Voxel_t chunk;
 
     TextureGrid blockGrid;
+
+    // Position of chunk
+    int x, z;
 
     // Chunk mesh
     Mesh chunkMesh;

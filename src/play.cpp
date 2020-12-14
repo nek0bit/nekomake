@@ -5,7 +5,7 @@ Play::Play(Timer& timer,
          Camera& camera,
          Textures& textures,
          meshGroup_t& meshGroup) : timer{timer}, shader{shader}, camera{camera},
-                                   textures{textures}, meshGroup{meshGroup}, test{}
+                                   textures{textures}, meshGroup{meshGroup}, chunkGroup{}
 {
     
 }
@@ -65,7 +65,8 @@ void Play::handleCamera(Inputs& inputs)
 }
 
 void Play::update(Inputs& inputs)
-{   
+{
+    chunkGroup.update();
     handleCamera(inputs);
 }
 
@@ -73,6 +74,5 @@ void Play::render()
 {
     //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
-    test.render(shader, textures);
-    
+    chunkGroup.render(shader, textures);
 }

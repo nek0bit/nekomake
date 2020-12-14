@@ -9,7 +9,7 @@ namespace constants::block
     int pixelSize = 32;
 
     std::vector<BlockInfo> blockInfo = {
-        BlockInfo{BLOCK_DIRT, "Dirt", {{0,0}, {1,0}, {0,0}, {1,0}, {0,0}, {1,0}}}
+        BlockInfo{BLOCK_DIRT, "Dirt", {{0,0}}}
     };
     
 }

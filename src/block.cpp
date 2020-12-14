@@ -1,6 +1,13 @@
 #include "block.hpp"
 
-Block::Block(int id, int x, int y, int z) : faces{1, 1, 1, 1, 1, 1}, x{x}, y{y}, z{z}, info{nullptr}
+Block::Block(int id, int offset_x, int offset_z, int x, int y, int z)
+    : faces{1, 1, 1, 1, 1, 1},
+      x{x},
+      y{y},
+      z{z},
+      offset_x{offset_x},
+      offset_z{offset_z},
+      info{nullptr}
 {
     std::vector<BlockInfo>& data = constants::block::blockInfo;
 
@@ -27,9 +34,9 @@ void Block::generateMesh(std::vector<Vertex>& vertices,
     const BlockInfo& infoRef = *info;
     bool sameSided = false;
     
-    float offX = x;
+    float offX = x + (offset_x);
     float offY = y;
-    float offZ = z;
+    float offZ = z + (offset_z);
 
     const float size = 0.5f;
 

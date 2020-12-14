@@ -20,6 +20,7 @@
 #include "game_object.hpp"
 #include "block.hpp"
 #include "chunk.hpp"
+#include "chunk_group.hpp"
 
 struct Play {
     Play(Timer& timer,
@@ -40,7 +41,7 @@ private:
     
     meshGroup_t& meshGroup;
 
-    Chunk test;
+    ChunkGroup chunkGroup;
 
     bool nullptrCheck(); // Just checks if no nullptrs for the above pointer references
 
