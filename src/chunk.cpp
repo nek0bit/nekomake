@@ -1,7 +1,7 @@
 #include "chunk.hpp"
 
 Chunk::Chunk(int x, int z)
-    : ready{false},
+    : ready{0},
       chunk{},
       blockGrid{constants::block::pixelSize, constants::block::pixelSize,
                 constants::block::texWidth, constants::block::texHeight},
@@ -19,13 +19,13 @@ Chunk::Chunk(int x, int z)
 {
     // Setup chunk mesh
     chunkMesh.init(vertices, ebo);
-    for (int i = 0; i <= constants::chunk::splitCount; ++i)
+    /*for (int i = 0; i <= constants::chunk::splitCount; ++i)
     {
             generateSplit();
     }
 
     updateBlockFaces();
-    generateChunkMesh();
+    generateChunkMesh();*/
 }
 
 Chunk::~Chunk()
@@ -81,6 +81,7 @@ void Chunk::updateBlockFaces()
             block.faces = sides;
         }
     }
+    ready = CHUNK_MESH_NOT_GENERATED;
 }
 
 void Chunk::generateChunkMesh()
@@ -93,11 +94,12 @@ void Chunk::generateChunkMesh()
         }
     }
     chunkMesh.bindBuffer(vertices, ebo);
+    ready = CHUNK_READY;
 }
 
 void Chunk::generateSplit()
 {
-    if (!ready)
+    if (ready == CHUNK_VOXELS_NOT_GENERATED)
     {
         for (int z = 0; z < constants::chunk::volume[2]; ++z)
         {
@@ -116,18 +118,13 @@ void Chunk::generateSplit()
         }
         
         if(++splitsGenerated > constants::chunk::splitCount-1) {
-            ready = true;
+            ready = CHUNK_FACES_NOT_UPDATED;
         }
     }
 }
 
 void Chunk::update()
-{
-    if (!ready)
-    {
-        
-    }
-}
+{}
 
 void Chunk::render(Shader& shader, Textures& textures)
 {

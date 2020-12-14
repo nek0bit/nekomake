@@ -33,12 +33,14 @@ void Block::generateMesh(std::vector<Vertex>& vertices,
 {
     const BlockInfo& infoRef = *info;
     bool sameSided = false;
+
+    
+    const float size = 0.5f;
     
     float offX = x + (offset_x);
     float offY = y;
     float offZ = z + (offset_z);
 
-    const float size = 0.5f;
 
     // First insert the vertices with the predefined cube (if neccesary)
     bool hasFaces = false;

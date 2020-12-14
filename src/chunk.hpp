@@ -16,6 +16,14 @@
 
 constexpr int yHeight = (constants::chunk::volume[1]/constants::chunk::splitCount);
 
+enum chunk_ready
+{
+    CHUNK_VOXELS_NOT_GENERATED,
+    CHUNK_FACES_NOT_UPDATED,
+    CHUNK_MESH_NOT_GENERATED,
+    CHUNK_READY
+};
+
 // x, y, then z
 typedef std::array<std::vector<Block>, constants::chunk::splitCount> Voxel_t;
 
@@ -33,8 +41,9 @@ struct Chunk
     void generateChunkMesh();
     void updateBlockFaces();
     void generateSplit();
+
+    int ready;
 private:
-    bool ready;
     // a 1dim array should be fine here
     Voxel_t chunk;
 
