@@ -37,6 +37,8 @@ struct Chunk
 
     Block* blockAt(unsigned int x, unsigned int y, unsigned int z);
     bool isBlockAt(int x, int y, int z);
+    void updateBlockAt(int x, int y, int z,
+                       std::array<unsigned short int, 6> faces);
 
     void generateChunkMesh();
     void updateBlockFaces();

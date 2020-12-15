@@ -59,6 +59,33 @@ bool Chunk::isBlockAt(int x, int y, int z)
     return false;
 }
 
+// Sides
+// 0 = Do not update
+// 1 = Disable
+// 2 = Enable
+void Chunk::updateBlockAt(int x, int y, int z,
+                          std::array<unsigned short int, 6> faces)
+{
+    Block* block = blockAt(x, y, z);
+    if (block != nullptr)
+    {    
+        for (unsigned short int i = 0; i < 6; ++i)
+        {
+            switch(faces[i])
+            {
+            case 1:
+                faces[i] = false;
+                break;
+            case 2:
+                faces[i] = true;
+            default:
+                break;
+            }
+        }
+    }
+}
+
+// Should only be used once per chunk generation
 void Chunk::updateBlockFaces()
 {
     for (auto& split: chunk)
