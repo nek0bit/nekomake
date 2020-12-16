@@ -21,34 +21,59 @@ ChunkGroup::~ChunkGroup()
 
 }
 
+Chunk* ChunkGroup::getChunkAt(int x, int z)
+{
+    auto it = std::find_if(loadedChunks.begin(),
+                 loadedChunks.end(), [&](std::unique_ptr<Chunk>& ch) -> bool {
+                                         return ch->x == x && ch->z == z;
+                                     });
+
+    if (it != loadedChunks.end())
+    {
+        return it->get();
+    }
+    return nullptr;
+}
+
 void ChunkGroup::update()
 {
+    // Prefs
+    const int chunkUpdatePerFrame = 5;
+    const int chunkGenerateSplitAmount = 2;
+
+    // State
+    int frameUpdates = 0;
+    
+    // Update chunk state
     for (std::unique_ptr<Chunk>& chunk: loadedChunks)
     {
-        bool chunkFound = true;
-        
         switch(chunk->ready)
         {
-        case CHUNK_VOXELS_NOT_GENERATED:
-            for (unsigned int i = 0; i < 2; ++i )
+        case CHUNK_VOXELS_NOT_GENERATED: // Load the chunk
+            for (unsigned int i = 0; i < chunkGenerateSplitAmount; ++i )
                 chunk->generateSplit();
-            chunkFound = true;
+            frameUpdates++;
             break;
-        case CHUNK_FACES_NOT_UPDATED:
+        case CHUNK_FACES_NOT_UPDATED: // Update faces for chunk blocks
             chunk->updateBlockFaces();
-            chunkFound = true;
+            frameUpdates++;
             break;
-        case CHUNK_MESH_NOT_GENERATED:
+        case CHUNK_MESH_NOT_GENERATED: // Generate/Re-generate mesh for chunk
             chunk->generateChunkMesh();
-            chunkFound = true;
+            frameUpdates++;
             break;
         case CHUNK_READY:
         default:
-            chunkFound = false;
+            chunk->update();
             break;
         };
-        
-        if (chunkFound) break;
+
+
+        if (frameUpdates > chunkUpdatePerFrame)
+        {
+            frameUpdates = 0;
+            break;
+        }
     }
 }
 

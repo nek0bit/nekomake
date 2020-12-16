@@ -7,7 +7,9 @@ Play::Play(Timer& timer,
          meshGroup_t& meshGroup) : timer{timer}, shader{shader}, camera{camera},
                                    textures{textures}, meshGroup{meshGroup}, chunkGroup{}
 {
-    
+
+    camera.eye.y = 80;
+    camera.pitch = -25.0f;
 }
 
 Play::~Play()
@@ -28,7 +30,7 @@ void Play::handleCamera(Inputs& inputs)
 
     constexpr double amount = 0.001;
     constexpr float rotateSpeed = 100;
-    constexpr float moveSpeed = 0.01;
+    constexpr float moveSpeed = 0.05;
 
     double move_x = (inputs.mouse_x_last - inputs.mouse_x) * amount,
         move_y = (inputs.mouse_y_last - inputs.mouse_y) * amount * -1;

@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "transition.hpp"
 #include "vertex.hpp"
 #include "generic.hpp"
 #include "constants.hpp"
@@ -45,15 +46,18 @@ struct Chunk
     void generateSplit();
 
     int ready;
+
+    // Position of chunk
+    int x, z;
+
+    
 private:
     // a 1dim array should be fine here
     Voxel_t chunk;
 
     TextureGrid blockGrid;
 
-    // Position of chunk
-    int x, z;
-
+    Transition chunkAnim;
     // Chunk mesh
     Mesh chunkMesh;
     GameObject chunkObj;

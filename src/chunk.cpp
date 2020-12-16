@@ -5,10 +5,11 @@ Chunk::Chunk(int x, int z)
       chunk{},
       blockGrid{constants::block::pixelSize, constants::block::pixelSize,
                 constants::block::texWidth, constants::block::texHeight},
+      chunkAnim{-30, 0.20},
       x{x},
       z{z},
       chunkMesh{},
-      chunkObj{&chunkMesh, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0},
+      chunkObj{&chunkMesh, 0, -30, 0, 0, 0, 0, 1.0, 1.0, 1.0},
       vertices{},
       ebo{},
       eboIndex{0},
@@ -19,13 +20,6 @@ Chunk::Chunk(int x, int z)
 {
     // Setup chunk mesh
     chunkMesh.init(vertices, ebo);
-    /*for (int i = 0; i <= constants::chunk::splitCount; ++i)
-    {
-            generateSplit();
-    }
-
-    updateBlockFaces();
-    generateChunkMesh();*/
 }
 
 Chunk::~Chunk()
@@ -39,7 +33,7 @@ Block* Chunk::blockAt(unsigned int x, unsigned int y, unsigned int z)
 
     try
     {
-        return &chunk.at(ySplit).at(x + (yWithin*yHeight) + (z*constants::chunk::volume[0]*yHeight));
+        return &chunk[ySplit].at(x + (yWithin*yHeight) + (z*constants::chunk::volume[0]*yHeight));
     }
     catch(std::out_of_range& err)
     {
@@ -122,6 +116,7 @@ void Chunk::generateChunkMesh()
     }
     chunkMesh.bindBuffer(vertices, ebo);
     ready = CHUNK_READY;
+    chunkAnim.value = 0;
 }
 
 void Chunk::generateSplit()
@@ -151,7 +146,10 @@ void Chunk::generateSplit()
 }
 
 void Chunk::update()
-{}
+{
+    chunkAnim.update();
+    chunkObj.pos.y = chunkAnim.get();
+}
 
 void Chunk::render(Shader& shader, Textures& textures)
 {

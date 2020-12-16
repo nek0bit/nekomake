@@ -53,14 +53,14 @@ void Mesh::render(Shader& shader,
 	glBindVertexArray(VAO);
 
 	glm::mat4 model{ 1.0f };
-	//model = glm::translate(model, transformVertex);
+	model = glm::translate(model, transformVertex);
 
     // Rotate by x, y, and z axis
-    //model = glm::rotate(model, rotateVertex.x, glm::vec3(1.0f, 0.0f, 0.0f));
-    //model = glm::rotate(model, rotateVertex.y, glm::vec3(0.0f, 1.0f, 0.0f));
-    //model = glm::rotate(model, rotateVertex.z, glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, rotateVertex.x, glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, rotateVertex.y, glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, rotateVertex.z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-    //model = glm::scale(model, scaleVertex);
+    model = glm::scale(model, scaleVertex);
 
     shader.setUniformMatrix4fv(shader.modelLoc, glm::value_ptr(model));
 
