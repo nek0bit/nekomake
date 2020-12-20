@@ -72,6 +72,23 @@ bool Chunk::isBlockAt(int x, int y, int z)
     {
         return blockAt(x, y, z);
     }
+    // We can have access to chunk borders
+    else if (x == -1 && borderedChunks[0] != nullptr)
+    {
+        return !borderedChunks[0]->blockAt(constants::chunk::volume[0], y, z);
+    }
+    else if (x == constants::chunk::volume[0]+1 && borderedChunks[1] != nullptr)
+    {
+        return !borderedChunks[1]->blockAt(0, y, z);
+    }
+    else if (z == -1 && borderedChunks[2] != nullptr)
+    {
+        return !borderedChunks[2]->blockAt(0, y, constants::chunk::volume[2]);
+    }
+    else if (z == constants::chunk::volume[2]+1 && borderedChunks[3] != nullptr)
+    {
+        return !borderedChunks[3]->blockAt(x, y, 0);
+    }
     return false;
 }
 

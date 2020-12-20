@@ -37,9 +37,9 @@ void Block::generateMesh(std::vector<Vertex>& vertices,
     
     const float size = 0.5f;
     
-    float offX = x + (offset_x);
+    float offX = x + (offset_x * 2);
     float offY = y;
-    float offZ = z + (offset_z);
+    float offZ = z + (offset_z * 2);
 
 
     // First insert the vertices with the predefined cube (if neccesary)
