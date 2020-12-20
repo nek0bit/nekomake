@@ -22,11 +22,12 @@ enum chunk_ready
     CHUNK_VOXELS_NOT_GENERATED,
     CHUNK_FACES_NOT_UPDATED,
     CHUNK_MESH_NOT_GENERATED,
+    CHUNK_ANIMATION_DONE,
     CHUNK_READY
 };
 
 // x, y, then z
-typedef std::array<std::vector<Block>, constants::chunk::splitCount> Voxel_t;
+typedef std::vector<std::vector<std::shared_ptr<Block>>> Voxel_t;
 
 struct Chunk
 {
@@ -42,20 +43,23 @@ struct Chunk
                        std::array<unsigned short int, 6> faces);
 
     void generateChunkMesh();
-    void updateBlockFaces();
+    void updateBlockFaces(bool updateBorderedChunks = false);
     void generateSplit();
+    void communicateBorders();
 
-    int ready;
+    int state;
 
     // Position of chunk
     int x, z;
 
-    
+    std::array<Chunk*, 4> borderedChunks;
 private:
     // a 1dim array should be fine here
     Voxel_t chunk;
 
     TextureGrid blockGrid;
+
+    bool animationDoneLock;
 
     Transition chunkAnim;
     // Chunk mesh

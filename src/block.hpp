@@ -18,6 +18,7 @@ struct Block
     Block(int id, int offset_x = 0, int offset_z = 0, int x = 0, int y = 0, int z = 0);
     virtual ~Block();
 
+    // TODO IMPORTANT move mesh generation to its own class, this wastes memory!!!
     void generateMesh(std::vector<Vertex>& vertices,
                       std::vector<unsigned int>& ebo,
                       unsigned int& eboIndex,
@@ -32,8 +33,7 @@ struct Block
 
     int x, y, z, offset_x, offset_z;
     BlockInfo* info;
-private:
-    
-    inline std::vector<unsigned int> vecAddNum(int to_add, std::vector<unsigned int> vec);
+private:    
+    std::vector<unsigned int> vecAddNum(int to_add, std::vector<unsigned int> vec);
 };
 
