@@ -28,10 +28,10 @@ void ChunkGroup::generateChunkAt(int x, int z)
     auto pos = loadedChunks.end()-1;
 
     // Set 
-    (*pos)->borderedChunks = {getChunkAt(x-1, z),
-                              getChunkAt(x+1, z),
-                              getChunkAt(x, z-1),
-                              getChunkAt(x, z+1)};
+    (*pos)->borderedChunks = {getChunkAt(x-1, z),  // Behind of
+                              getChunkAt(x+1, z),  // Front of
+                              getChunkAt(x, z-1),  // Left of
+                              getChunkAt(x, z+1)}; // Right of
 }
 
 // TODO store items in properly indexed vector so we can easily get the index without searching the chunks
@@ -52,7 +52,7 @@ Chunk* ChunkGroup::getChunkAt(int x, int z)
 void ChunkGroup::update()
 {
     // Prefs
-    const int chunkUpdatePerFrame = 5;
+    const int chunkUpdatePerFrame = 3;
     const int chunkGenerateSplitAmount = 2;
 
     // State
@@ -74,6 +74,7 @@ void ChunkGroup::update()
             frameUpdates++;
             break;
         case CHUNK_MESH_NOT_GENERATED: // Generate/Re-generate mesh for chunk
+            std::cout << "Not ready..." << std::endl;
             chunk->generateChunkMesh();
             frameUpdates++;
             break;
@@ -89,8 +90,19 @@ void ChunkGroup::update()
         if (frameUpdates > chunkUpdatePerFrame)
         {
             frameUpdates = 0;
-            break;
+            //break;
         }
+
+        /*if (frameUpdates == 0)
+        {
+            
+            std::cout << "===================" << std::endl;
+            std::cout << "Chunk at " << chunk->x << " and " << chunk->z << " is " << chunk.get() << std::endl;
+            for (auto& i: chunk->borderedChunks)
+            {
+                std::cout << "0: " << i << std::endl;
+            }
+            }*/
     }
 }
 

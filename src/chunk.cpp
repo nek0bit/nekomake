@@ -75,19 +75,19 @@ bool Chunk::isBlockAt(int x, int y, int z)
     // We can have access to chunk borders
     else if (x == -1 && borderedChunks[0] != nullptr)
     {
-        return !borderedChunks[0]->blockAt(constants::chunk::volume[0], y, z);
+        return borderedChunks[0]->blockAt(z, y, constants::chunk::volume[0]-1);
     }
-    else if (x == constants::chunk::volume[0]+1 && borderedChunks[1] != nullptr)
+    else if (x == constants::chunk::volume[0] && borderedChunks[1] != nullptr)
     {
-        return !borderedChunks[1]->blockAt(0, y, z);
+        return borderedChunks[1]->blockAt(z, y, 0);
     }
     else if (z == -1 && borderedChunks[2] != nullptr)
     {
-        return !borderedChunks[2]->blockAt(0, y, constants::chunk::volume[2]);
+        return borderedChunks[2]->blockAt(0, y, constants::chunk::volume[2]-1);
     }
-    else if (z == constants::chunk::volume[2]+1 && borderedChunks[3] != nullptr)
+    else if (z == constants::chunk::volume[2] && borderedChunks[3] != nullptr)
     {
-        return !borderedChunks[3]->blockAt(x, y, 0);
+        return borderedChunks[3]->blockAt(0, y, x);
     }
     return false;
 }
@@ -136,6 +136,7 @@ void Chunk::communicateBorders()
         };
 
         borderedChunks[i]->borderedChunks[ind] = this;
+        borderedChunks[i]->updateBlockFaces(true);
     }
 }
 
