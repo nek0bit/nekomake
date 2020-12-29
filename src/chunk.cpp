@@ -24,7 +24,7 @@ Chunk::Chunk(int x, int y, int z)
     // Setup chunk mesh
     chunkMesh.init(vertices, ebo);
 
-    chunk.resize(constants::chunk::volume[0] * constants::chunk::volume[1] * constants::chunk::volume[2]);
+    //chunk.resize(constants::chunk::volume[0] * constants::chunk::volume[1] * constants::chunk::volume[2]);
 }
 
 Chunk::~Chunk()
@@ -33,30 +33,11 @@ Chunk::~Chunk()
 
 Block* Chunk::blockAt(unsigned int x, unsigned int y, unsigned int z)
 {
-    // Using a *VERY* slow but correct block finder until I fix the code below (which is much faster but something is off)
-    auto search = std::find_if(chunk.begin(), chunk.end(), [&](std::shared_ptr<Block>& bl) -> bool {
-                                                                               if (bl == nullptr) return false;
-                                                                               return bl->x == x && bl->y == y && bl->z == z;
-                                                                           });
-
-    if (search != chunk.end())
-    {
-        return (*search).get();
-    }
-    else
-    {
-        return nullptr;
-    }
-
-    /*
-    try
-    {
-        return chunk.at(x + (yWithin*yHeight) + (z*constants::chunk::volume[0]*yHeight)).get();
-    }
-    catch(std::out_of_range& err)
-    {
-        return nullptr;
-        }*/
+    constexpr int xVol = constants::chunk::volume[0];
+    constexpr int yVol = constants::chunk::volume[1];
+    constexpr int zVol = constants::chunk::volume[2];
+    
+    return chunk.at(yVol*xVol*z + yVol * y + x).get();
 }
 
 bool Chunk::isBlockAt(int x, int y, int z)
@@ -175,7 +156,6 @@ void Chunk::generateChunkMesh()
         }
 
         meshGen.generateMesh(*block.get(), {x, y, z}, vertices, ebo, eboIndex, blockGrid);
-        //block->generateMesh();
     }
     
     chunkMesh.bindBuffer(vertices, ebo);
@@ -187,22 +167,25 @@ void Chunk::generateChunkMesh()
 
 void Chunk::generateChunk()
 {
-    for (int x = 0; x < constants::chunk::volume[0]; ++x)
+    for (int z = 0; z < constants::chunk::volume[2]; ++z)
     {
         for (int y = 0; y < constants::chunk::volume[1]; ++y)
         {
-            for (int z = 0; z < constants::chunk::volume[2]; ++z)
+            for (int x = 0; x < constants::chunk::volume[0]; ++x)
             {
-                if (false)
+                if (x == 0 && y == 0 && z == 0)
                 {
                     chunk.push_back(nullptr);
-                } else {   
+
+                }
+                else
+                {   
                     chunk.push_back(
-                        std::make_shared<Block>(
-                            Block{0,
-                                  x,
-                                  y,
-                                  z}));
+                    std::make_shared<Block>(
+                        Block{0,
+                              x,
+                              y,
+                              z}));
                 }
             }
         }

@@ -3,15 +3,19 @@
 ChunkGroup::ChunkGroup()
     : loadedChunks{}
 {
-    const int x = 10; 
-    const int z = 10;
+    const int xMax = 10;
+    const int yMax = 10;
+    const int zMax = 10;
 
     // Generate chunks
-    for (unsigned int i = 0; i < x; ++i)
+    for (unsigned int x = 0; x < xMax; ++x)
     {
-        for (unsigned int j = 0; j < z; ++j)
+        for (unsigned int y = 0; y < yMax; ++y)
         {
-            generateChunkAt(i, 0, j);
+            for (unsigned int z = 0; z < zMax; ++z)
+            {
+                generateChunkAt(x, y, z);
+            }
         }
     }
 }
@@ -51,12 +55,6 @@ Chunk* ChunkGroup::getChunkAt(int x, int y, int z)
 
 void ChunkGroup::update()
 {
-    // Prefs
-    const int chunkUpdatePerFrame = 3;
-
-    // State
-    int frameUpdates = 0;
-    
     // Update chunk state
     for (std::unique_ptr<Chunk>& chunk: loadedChunks)
     {
@@ -64,45 +62,20 @@ void ChunkGroup::update()
         {
         case CHUNK_VOXELS_NOT_GENERATED: // Load the chunk
             chunk->generateChunk();
-            
-            frameUpdates++;
             break;
         case CHUNK_FACES_NOT_UPDATED: // Update faces for chunk blocks
             chunk->communicateBorders(); // Make sure chunks know borders
             chunk->updateBlockFaces(true);
-            
-            frameUpdates++;
             break;
         case CHUNK_MESH_NOT_GENERATED: // Generate/Re-generate mesh for chunk
             chunk->generateChunkMesh();
-            
-            frameUpdates++;
             break;
         case CHUNK_ANIMATION_DONE:
-            chunk->state = CHUNK_READY;
-            break;
         case CHUNK_READY:
         default:
             chunk->update();
             break;
         };
-
-        if (frameUpdates > chunkUpdatePerFrame)
-        {
-            frameUpdates = 0;
-            //break;
-        }
-
-        /*if (frameUpdates == 0)
-        {
-            
-            std::cout << "===================" << std::endl;
-            std::cout << "Chunk at " << chunk->x << " and " << chunk->z << " is " << chunk.get() << std::endl;
-            for (auto& i: chunk->borderedChunks)
-            {
-                std::cout << "0: " << i << std::endl;
-            }
-            }*/
     }
 }
 

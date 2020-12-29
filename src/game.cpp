@@ -81,7 +81,10 @@ void Game::initGL()
 {
     glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);   
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // For debugging
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void Game::update()
