@@ -1,8 +1,9 @@
 #include "chunk.hpp"
 
-Chunk::Chunk(int x, int z)
+Chunk::Chunk(int x, int y, int z)
     : state{0},
       x{x},
+      y{y},
       z{z},
       borderedChunks{},
       chunk{},
@@ -23,7 +24,7 @@ Chunk::Chunk(int x, int z)
     // Setup chunk mesh
     chunkMesh.init(vertices, ebo);
 
-    chunk.resize(constants::chunk::splitCount);
+    chunk.resize(constants::chunk::volume[0] * constants::chunk::volume[1] * constants::chunk::volume[2]);
 }
 
 Chunk::~Chunk()
@@ -32,17 +33,13 @@ Chunk::~Chunk()
 
 Block* Chunk::blockAt(unsigned int x, unsigned int y, unsigned int z)
 {
-    int ySplit = static_cast<float>(y)/yHeight;
-    int yWithin = y % yHeight;
-
-
     // Using a *VERY* slow but correct block finder until I fix the code below (which is much faster but something is off)
-    auto search = std::find_if(chunk[ySplit].begin(), chunk[ySplit].end(), [&](std::shared_ptr<Block>& bl) -> bool {
+    auto search = std::find_if(chunk.begin(), chunk.end(), [&](std::shared_ptr<Block>& bl) -> bool {
                                                                                if (bl == nullptr) return false;
                                                                                return bl->x == x && bl->y == y && bl->z == z;
                                                                            });
 
-    if (search != chunk[ySplit].end())
+    if (search != chunk.end())
     {
         return (*search).get();
     }
@@ -54,13 +51,12 @@ Block* Chunk::blockAt(unsigned int x, unsigned int y, unsigned int z)
     /*
     try
     {
-        return chunk[ySplit].at(x + (yWithin*yHeight) + (z*constants::chunk::volume[0]*yHeight)).get();
+        return chunk.at(x + (yWithin*yHeight) + (z*constants::chunk::volume[0]*yHeight)).get();
     }
     catch(std::out_of_range& err)
     {
         return nullptr;
-    }
-    */
+        }*/
 }
 
 bool Chunk::isBlockAt(int x, int y, int z)
@@ -144,80 +140,75 @@ void Chunk::communicateBorders()
 void Chunk::updateBlockFaces(bool updateBorderedChunks)
 {
     
-    for (auto& split: chunk)
+    for (auto& block: chunk)
     {
-        for (auto& block: split)
+        if (block == nullptr)
         {
-            if (block == nullptr)
-            {
-                continue;
-            }
-            
-            const int bx = block->x;
-            const int by = block->y;
-            const int bz = block->z;
-                        
-            block->faces = {
-                !isBlockAt(bx, by, bz-1), // Left side
-                !isBlockAt(bx, by, bz+1), // Right side
-                !isBlockAt(bx-1, by, bz), // Front side
-                !isBlockAt(bx+1, by, bz), // Back side
-                !isBlockAt(bx, by-1, bz), // Bottom side
-                !isBlockAt(bx, by+1, bz)  // Top side
-            };
+            continue;
         }
+            
+        const int bx = block->x;
+        const int by = block->y;
+        const int bz = block->z;
+                        
+        block->faces = {
+            !isBlockAt(bx, by, bz-1), // Left side
+            !isBlockAt(bx, by, bz+1), // Right side
+            !isBlockAt(bx-1, by, bz), // Front side
+            !isBlockAt(bx+1, by, bz), // Back side
+            !isBlockAt(bx, by-1, bz), // Bottom side
+            !isBlockAt(bx, by+1, bz)  // Top side
+        };
     }
+    
     state = CHUNK_MESH_NOT_GENERATED;
 }
 
 void Chunk::generateChunkMesh()
 {
-    for (auto& split: chunk)
+    ChunkMeshGenerator meshGen{};
+    for (auto& block: chunk)
     {
-        for (auto& block: split)
+        if (block == nullptr)
         {
-            if (block == nullptr)
-            {
-                continue;
-            }
-            block->generateMesh(vertices, ebo, eboIndex, blockGrid);
+            continue;
         }
+
+        meshGen.generateMesh(*block.get(), {x, y, z}, vertices, ebo, eboIndex, blockGrid);
+        //block->generateMesh();
     }
+    
     chunkMesh.bindBuffer(vertices, ebo);
+
+    // Chunk is ready!
     state = CHUNK_READY;
     chunkAnim.value = 0;
 }
 
-void Chunk::generateSplit()
+void Chunk::generateChunk()
 {
-    if (state == CHUNK_VOXELS_NOT_GENERATED)
+    for (int x = 0; x < constants::chunk::volume[0]; ++x)
     {
-        for (int x = 0; x < constants::chunk::volume[0]; ++x)
+        for (int y = 0; y < constants::chunk::volume[1]; ++y)
         {
-            for (int y = (splitsGenerated*yHeight); y < (splitsGenerated*yHeight)+yHeight; ++y)
+            for (int z = 0; z < constants::chunk::volume[2]; ++z)
             {
-                for (int z = 0; z < constants::chunk::volume[2]; ++z)
+                if (false)
                 {
-                    if (x == 0 && y % 5 == 0 && z == 0 )
-                    {
-                        chunk[splitsGenerated].push_back(nullptr);
-                    } else {   
-                        chunk[splitsGenerated].push_back(
-                            std::make_shared<Block>(Block{0,
-                                                          this->x*constants::chunk::volume[0],
-                                                          this->z*constants::chunk::volume[2],
-                                                          x,
-                                                          y,
-                                                          z}));
-                    }
+                    chunk.push_back(nullptr);
+                } else {   
+                    chunk.push_back(
+                        std::make_shared<Block>(
+                            Block{0,
+                                  x,
+                                  y,
+                                  z}));
                 }
             }
         }
-        
-        if(++splitsGenerated > constants::chunk::splitCount-1) {
-            state = CHUNK_FACES_NOT_UPDATED;
-        }
     }
+        
+    state = CHUNK_FACES_NOT_UPDATED;
 }
 
 void Chunk::update()

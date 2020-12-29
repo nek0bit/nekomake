@@ -14,8 +14,7 @@
 #include "constants.hpp"
 #include "block.hpp"
 #include "texture_grid.hpp"
-
-constexpr int yHeight = (constants::chunk::volume[1]/constants::chunk::splitCount);
+#include "chunk_mesh_generator.hpp"
 
 enum chunk_ready
 {
@@ -27,11 +26,11 @@ enum chunk_ready
 };
 
 // x, y, then z
-typedef std::vector<std::vector<std::shared_ptr<Block>>> Voxel_t;
+typedef std::vector<std::shared_ptr<Block>> Voxel_t;
 
 struct Chunk
 {
-    Chunk(int x, int z);
+    Chunk(int x, int y, int z);
     ~Chunk();
 
     void update();
@@ -44,17 +43,17 @@ struct Chunk
 
     void generateChunkMesh();
     void updateBlockFaces(bool updateBorderedChunks = false);
-    void generateSplit();
+    void generateChunk();
     void communicateBorders();
 
     int state;
 
     // Position of chunk
-    int x, z;
+    // Chunks are 3d
+    int x, y, z;
 
-    std::array<Chunk*, 4> borderedChunks;
+    std::array<Chunk*, 6> borderedChunks;
 private:
-    // a 1dim array should be fine here
     Voxel_t chunk;
 
     TextureGrid blockGrid;

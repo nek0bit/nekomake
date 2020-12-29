@@ -15,25 +15,15 @@ typedef std::array<bool, 6> faces_t;
 
 struct Block
 {
-    Block(int id, int offset_x = 0, int offset_z = 0, int x = 0, int y = 0, int z = 0);
+    Block(int id, int x = 0, int y = 0, int z = 0);
     virtual ~Block();
-
-    // TODO IMPORTANT move mesh generation to its own class, this wastes memory!!!
-    void generateMesh(std::vector<Vertex>& vertices,
-                      std::vector<unsigned int>& ebo,
-                      unsigned int& eboIndex,
-                      TextureGrid& blockGrid);
     
     bool operator<(const Block& b) const;
     bool operator>(const Block& b) const;
 
-    bool compare(int com_x, int com_y, int com_z) const;
-
     faces_t faces;
 
-    int x, y, z, offset_x, offset_z;
+    int x, y, z;
     BlockInfo* info;
-private:    
-    std::vector<unsigned int> vecAddNum(int to_add, std::vector<unsigned int> vec);
 };
 

@@ -19,6 +19,6 @@ struct ChunkGroup
 
     std::vector<std::unique_ptr<Chunk>> loadedChunks;
 private:
-    Chunk* getChunkAt(int x, int z);
-    void generateChunkAt(int x, int z);
+    Chunk* getChunkAt(int x, int y, int z);
+    void generateChunkAt(int x, int y, int z);
 };
