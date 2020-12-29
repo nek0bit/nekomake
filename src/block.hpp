@@ -23,7 +23,7 @@ struct Block
 
     faces_t faces;
 
-    int x, y, z;
+    char x, y, z;
     BlockInfo* info;
 };
 

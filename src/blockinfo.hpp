@@ -8,9 +8,8 @@ typedef std::vector<std::array<int, 2>> textureSides_t;
 
 enum BLOCKS_ENUM
 {
-    BLOCK_DIRT,
-    BLOCK_GRASS,
-    BLOCK_STONE
+    BLOCK_MOON_SOIL,
+    BLOCK_STONE,
 };
 
 struct BlockInfo

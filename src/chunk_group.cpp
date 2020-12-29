@@ -35,7 +35,9 @@ void ChunkGroup::generateChunkAt(int x, int y, int z)
     (*pos)->borderedChunks = {getChunkAt(x-1, y, z),  // Behind of
                               getChunkAt(x+1, y, z),  // Front of
                               getChunkAt(x, y, z-1),  // Left of
-                              getChunkAt(x, y, z+1)}; // Right of
+                              getChunkAt(x, y, z+1),  // Right of
+                              getChunkAt(x, y-1, z),  // Bottom of
+                              getChunkAt(x, y+1, z)}; // Top of
 }
 
 // TODO store items in properly indexed vector so we can easily get the index without searching the chunks

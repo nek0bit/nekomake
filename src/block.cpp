@@ -2,9 +2,9 @@
 
 Block::Block(int id, int x, int y, int z)
     : faces{1, 1, 1, 1, 1, 1},
-      x{x},
-      y{y},
-      z{z},
+      x{static_cast<char>(x)},
+      y{static_cast<char>(y)},
+      z{static_cast<char>(z)},
       info{nullptr}
 {
     std::vector<BlockInfo>& data = constants::block::blockInfo;
