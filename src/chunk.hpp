@@ -15,6 +15,7 @@
 #include "block.hpp"
 #include "texture_grid.hpp"
 #include "chunk_mesh_generator.hpp"
+#include "chunk_generator.hpp"
 
 enum chunk_ready
 {
@@ -30,7 +31,7 @@ typedef std::vector<std::shared_ptr<Block>> Voxel_t;
 
 struct Chunk
 {
-    Chunk(int x, int y, int z);
+    Chunk(int x, int y, int z, ChunkGenerator* chunkGenerator);
     ~Chunk();
 
     void update();
@@ -55,6 +56,7 @@ struct Chunk
     std::array<Chunk*, 6> borderedChunks;
 private:
     Voxel_t chunk;
+    ChunkGenerator* chunkGen;
 
     TextureGrid blockGrid;
 

@@ -7,6 +7,7 @@
 
 struct BlockArgs
 {
+    bool emptyBlock;
     int id;
 };
 

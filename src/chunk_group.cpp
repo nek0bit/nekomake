@@ -1,8 +1,11 @@
 #include "chunk_group.hpp"
 
 ChunkGroup::ChunkGroup()
-    : loadedChunks{}
+    : loadedChunks{}, worldGen{nullptr}
 {
+    // Testing this
+    worldGen = new BasicGenerator(123456);
+    
     const int xMax = 10;
     const int yMax = 10;
     const int zMax = 10;
@@ -22,13 +25,13 @@ ChunkGroup::ChunkGroup()
 
 ChunkGroup::~ChunkGroup()
 {
-
+    delete worldGen;
 }
 
 void ChunkGroup::generateChunkAt(int x, int y, int z)
 {
     // Insert chunk
-    loadedChunks.push_back(std::unique_ptr<Chunk>(new Chunk(x, y, z)));
+    loadedChunks.push_back(std::unique_ptr<Chunk>(new Chunk(x, y, z, worldGen)));
     auto pos = loadedChunks.end()-1;
 
     // Set 

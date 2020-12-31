@@ -1,12 +1,13 @@
 #include "chunk.hpp"
 
-Chunk::Chunk(int x, int y, int z)
+Chunk::Chunk(int x, int y, int z, ChunkGenerator* chunkGenerator)
     : state{0},
       x{x},
       y{y},
       z{z},
       borderedChunks{},
       chunk{},
+      chunkGen{chunkGenerator},
       blockGrid{constants::block::pixelSize, constants::block::pixelSize,
                 constants::block::texWidth, constants::block::texHeight},
       animationDoneLock{false},
@@ -23,8 +24,6 @@ Chunk::Chunk(int x, int y, int z)
 {
     // Setup chunk mesh
     chunkMesh.init(vertices, ebo);
-
-    //chunk.resize(constants::chunk::volume[0] * constants::chunk::volume[1] * constants::chunk::volume[2]);
 }
 
 Chunk::~Chunk()
@@ -36,7 +35,8 @@ Block* Chunk::blockAt(unsigned int x, unsigned int y, unsigned int z)
     constexpr int xVol = constants::chunk::volume[0];
     constexpr int yVol = constants::chunk::volume[1];
     constexpr int zVol = constants::chunk::volume[2];
-    
+
+    // 3d to 1d array (since 1d arrays are faster I believe)
     return chunk.at(yVol*xVol*z + yVol * y + x).get();
 }
 
@@ -186,19 +186,21 @@ void Chunk::generateChunk()
         {
             for (int x = 0; x < constants::chunk::volume[0]; ++x)
             {
-                if (x == 0 && y == 0 && z == 0)
+                // Adjusts the coordinates by the current chunk coordinates
+                const int realX = x+(this->x*constants::chunk::volume[0]);
+                const int realY = y+(this->y*constants::chunk::volume[1]);
+                const int realZ = z+(this->z*constants::chunk::volume[2]);
+
+                // Returns the properties for the block, such as if there even is a block
+                BlockArgs props = chunkGen->generateBlockAt(realX, realY, realZ);
+
+                if (props.emptyBlock)
                 {
                     chunk.push_back(nullptr);
-
                 }
                 else
-                {   
-                    chunk.push_back(
-                    std::make_shared<Block>(
-                        Block{0,
-                              x,
-                              y,
-                              z}));
+                {
+                    chunk.push_back(std::make_shared<Block>(Block{props.id, x, y, z}));
                 }
             }
         }
@@ -213,6 +215,8 @@ void Chunk::update()
     {
         chunkAnim.update();
         chunkObj.pos.y = chunkAnim.get();
+
+        // Small efficiency to stop calculating animating early
         if (chunkAnim.get() > -0.02)
         {
             animationDoneLock = true; // Dont animate anymore
