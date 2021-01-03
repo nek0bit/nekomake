@@ -74,7 +74,5 @@ void Play::update(Inputs& inputs)
 
 void Play::render()
 {
-    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-
     chunkGroup.render(shader, textures);
 }

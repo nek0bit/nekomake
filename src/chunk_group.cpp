@@ -4,11 +4,11 @@ ChunkGroup::ChunkGroup()
     : loadedChunks{}, worldGen{nullptr}
 {
     // Testing this
-    worldGen = new BasicGenerator(123456);
+    worldGen = new BasicGenerator(0);
     
-    const int xMax = 10;
-    const int yMax = 10;
-    const int zMax = 10;
+    const int xMax = 1;
+    const int yMax = 1;
+    const int zMax = 2;
 
     // Generate chunks
     for (unsigned int x = 0; x < xMax; ++x)

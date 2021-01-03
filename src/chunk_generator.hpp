@@ -16,7 +16,7 @@ struct ChunkGenerator
     ChunkGenerator(int seed = 0);
     virtual ~ChunkGenerator();
 
-    virtual BlockArgs generateBlockAt(int, int, int) const;
+    virtual BlockArgs generateBlockAt(int, int, int);
     
     const int seed;
 };

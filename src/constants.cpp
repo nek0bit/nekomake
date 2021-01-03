@@ -11,6 +11,7 @@ namespace constants::block
     std::vector<BlockInfo> blockInfo = {
         {BLOCK_MOON_SOIL, "Moon Soil", {{0,0}}},
         {BLOCK_STONE, "Fallen Stone", {{1,0}}},
+        {2, "TEST", {{2,0}}},
     };
     
 }

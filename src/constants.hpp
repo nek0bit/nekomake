@@ -38,6 +38,6 @@ namespace constants
     namespace chunk
     {
         // Dimensions of a 3D chunk
-        constexpr chunkVolume_t volume = {12, 12, 12};
+        constexpr chunkVolume_t volume = {6, 6, 6};
     }
 }
